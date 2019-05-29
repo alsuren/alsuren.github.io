@@ -1,4 +1,4 @@
-### Welcome to GitHub Pages.
+<!-- Actual title is added by github pages -->
 
 I've recently gone from a 5 day week to a 4 day week, so that I can make more contributions to open source software/communities. My "project day" is Wednesday. I thought it would be interesting to record what I get up to each week. At the moment I don't have much velocity, because I've also got a lot of life stuff to sort out. If I don't get bored of this, I might turn it into an actual blog. For now, it will be an append-mostly log.
 
