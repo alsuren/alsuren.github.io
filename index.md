@@ -63,10 +63,10 @@ In the process, I worked out that `cargo info` doesn't do any kind of connection
 I started to do some analysis of the examples I found the previous week.
 Of the 6408 Cargo.toml examples that I downloaded from github (and ran `cargo add --manifest-path=$f  boringssl@0.0.5`) against:
 
-4808 just added a single line with the dependency
-524 also fixed the newlines at the end of the file
-851 also added a `[dependencies]` section (because there was none previously)
-226 do a bunch of reordering of sections
+* 4808 just added a single line with the dependency
+* 524 also fixed the newlines at the end of the file
+* 851 also added a `[dependencies]` section (because there was none previously)
+* 226 do a bunch of reordering of sections
 
 (I may need to re-do this analysis, because I used --ignore-space-change for some things, to get around the `\no newline at end of file` changes).
 
@@ -95,3 +95,8 @@ dtrace: system integrity protection is on, some features will not be available
 So I stashed all of those files onto a separate branch, and now everything is fast again.
 
 I also happened to be cycling past Tottenham Court Road, so I popped into a shop on the off-chance that I could avoid sending even more of my money in the direction of Amazon. They had exactly the screen I was looking for, and even delivered it the same day.
+
+
+## 2019-06-02 (Sunday) - Found https://github.com/rust-lang/rust-repos
+
+All of my previous analysis was on repos that got as far as being published on crates.io. This excludes repos from beginner rust users and repos that aren't libraries. After downloading all of the configs pointed to by that repo, and re-running the analysis, I added a comment to https://github.com/killercup/cargo-edit/issues/218 with my findings.
