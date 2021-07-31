@@ -73,6 +73,18 @@ but the semicolon got parsed by the shell somehow. My commit message got truncat
 
 Interestingly, using single quotes avoids this problem, so I suspect that this is a bug. I like to write words like `don't` in my commit messages, so I prefer to use double-quotes for this.
 
+### Quoted paste mode
+
+When setting up a git repo, you are told to:
+
+```bash
+git remote add origin git@github.com:alsuren/docker-fwd.git
+git branch -M main
+git push -u origin main
+```
+
+If you are using readline with quoted paste enabled, this will give you a multiline input, and you can hit enter once to execute the whole lot. nushell's default behaviour is similar to the readline default settings, so it will execute the first command and only read the second and third lines once the first has finished executing (unless the first command reads from stdin, in which case, they may go missing entirely).
+
 
 ## That's all for now
 
