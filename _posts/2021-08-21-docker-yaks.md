@@ -54,6 +54,10 @@ git remote add docker-fwd --fetch ssh://core@localhost:2222/var/home/core/$PWD
 
 git push docker-fwd HEAD:incoming
 $SSH "cd ./$PWD && git reset --hard incoming"
+
+git commit
+git push docker-fwd HEAD:incoming
+$SSH "cd ./$PWD && git merge --ff-only incoming"
 ```
 🎉
 
