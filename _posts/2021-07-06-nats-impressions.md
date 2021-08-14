@@ -2,11 +2,11 @@
 title: Early impressions of NATS
 ---
 
-Originally posted on https://awesome.red-badger.com/davidlaban/.
-
 First impressions of technologies are quite important for driving adoption, so I've started writing down my early impressions as I explore different technologies.
 
 NATS is a distributed messaging system.
+
+(Originally posted on the [red-badger tech site](https://awesome.red-badger.com/davidlaban/))
 
 ## Protocol
 

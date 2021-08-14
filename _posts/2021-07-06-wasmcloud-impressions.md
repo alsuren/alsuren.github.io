@@ -2,11 +2,11 @@
 title: Early impressions of WasmCloud
 ---
 
-Originally posted on https://awesome.red-badger.com/davidlaban/.
-
 First impressions of technologies are quite important for driving adoption, so I've started writing down my early impressions as I explore different technologies.
 
 WasmCloud is an application platform built on WASM (like erlang's BEAM, but you deploy WASM to it rather than erlang).
+
+(Originally posted on the [red-badger tech site](https://awesome.red-badger.com/davidlaban/))
 
 ## Documentation
 

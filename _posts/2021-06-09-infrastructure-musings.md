@@ -2,7 +2,7 @@
 title: Infrastructure Musings
 ---
 
-Originally posted on https://awesome.red-badger.com/davidlaban/.
+Thoughts about infrastructure and platforms. Originally posted on the [red-badger tech site](https://awesome.red-badger.com/davidlaban/).
 
 ## Where are we now?
 

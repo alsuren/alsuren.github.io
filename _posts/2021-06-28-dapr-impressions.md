@@ -2,9 +2,9 @@
 title: Early impressions of Dapr
 ---
 
-Originally posted on https://awesome.red-badger.com/davidlaban/.
-
 It's worth writing down some impressions about dapr, and especially its tooling.
+
+(Originally posted on the [red-badger tech site](https://awesome.red-badger.com/davidlaban/))
 
 Dapr is intended to sit on top of kubernetes for production deployment, but it also has a "self-hosted" mode that can be accessed via the dapr cli.
 
