@@ -169,3 +169,12 @@ Open questions:
 * How do you deal with staged files?
 
 I think what I really want is a bare git repo living in another directory, that knows to ignore everything about the .git dir in the local repo.
+
+In the case where you've just made a commit and want the remote to sync up, you might be able to add this to your post-commit hook:
+
+```bash
+#!/bin/bash
+
+git push docker-fwd HEAD:incoming
+ssh localhost "cd ./$PWD && git merge --ff-only incoming"
+```
