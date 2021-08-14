@@ -2,7 +2,7 @@ title: alsuren.github.io
 description: GitHub Pages for alsuren
 google_analytics: 
 show_downloads: false
-theme: jekyll-theme-tactile
+# theme: jekyll-theme-tactile
 
 gems:
   - jekyll-mentions
