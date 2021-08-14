@@ -2,10 +2,7 @@
 title: cargo_edit examples
 ---
 
-There are a bunch of issues filed against cargo-edit around it scrambling the input formatting:
-https://github.com/killercup/cargo-edit/issues/218 https://github.com/killercup/cargo-edit/issues/217 https://github.com/killercup/cargo-edit/issues/15
-
-I wrote a script to download all of the Cargo.toml files I could find, to see how bad the problem is. It's beautiful (or something).
+There are a bunch of issues filed against cargo-edit around it scrambling the input formatting. For example [this one](https://github.com/killercup/cargo-edit/issues/218), [this one](https://github.com/killercup/cargo-edit/issues/217) and [this one](https://github.com/killercup/cargo-edit/issues/15). I wrote a script to download all of the Cargo.toml files I could find, to see how bad the problem is. It's beautiful (or something).
 
 ```
 for path in ~/src/crates.io-index/[a-z]*

@@ -3,7 +3,7 @@ title: Got a desk frame
 ---
 
 I started to do some analysis of the examples I found the previous week.
-Of the 6408 Cargo.toml examples that I downloaded from github (and ran `cargo add --manifest-path=$f  boringssl@0.0.5`) against:
+Of the 6408 Cargo.toml examples that I downloaded from github (and ran `cargo add --manifest-path=$f  boringssl@0.0.5` against), here is the breakdown.
 
 * 4808 just added a single line with the dependency
 * 524 also fixed the newlines at the end of the file

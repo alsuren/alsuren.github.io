@@ -2,7 +2,9 @@
 title: Got a screen
 ---
 
-I was expecting to spend the day fiddling about with profiling, but the previous night I did some more reading around dtrace (there was a hint on dtrace.org about using `appropros dtrace` to find a bunch of pre-installed tools that are written using dtrace). The kicker was:
+I was expecting to spend the day fiddling about with profiling, but the previous night I did some more reading around dtrace (there was a hint on dtrace.org about using `appropros dtrace` to find a bunch of pre-installed tools that are written using dtrace).
+
+The kicker was:
 ```
 $ sudo opensnoop -p $(pgrep ra_lsp_server)
 dtrace: system integrity protection is on, some features will not be available
