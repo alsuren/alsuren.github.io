@@ -20,12 +20,3 @@ I've been using [remark](https://github.com/gnab/remark) [excalidraw](https://ex
 
 - Some internal presentations.
 - [My home monitoring project](https://alsuren.github.io/mijia-homie/docs/presentation/) for Binary Solo, and updated for Rust London.
-
-## Latest Posts
-
-{% for post in site.posts %}
-
-### [{{ post.title }}]({{ post.url }})
-{{ post.excerpt }}
-
-{% endfor %}

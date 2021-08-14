@@ -3,6 +3,7 @@ description: GitHub Pages for alsuren
 google_analytics: 
 show_downloads: false
 theme: minima
+show_excerpts: true
 
 gems:
   - jekyll-mentions
