@@ -35,9 +35,9 @@ They do have a page on using qemu directly: https://docs.fedoraproject.org/en-US
 Adapting their example to our filenames, we get:
 ```
 qemu-system-x86_64 -m 2048 -nographic -snapshot \
-	-drive if=virtio,file=/Users/alsuren/Downloads/fedora-coreos-34.20210725.3.0-qemu.x86_64.qcow2 \
-	-fw_cfg name=opt/com.coreos/config,file=coreos/docker-host.ign \
-	-nic user,model=virtio,hostfwd=tcp::2222-:22
+    -drive if=virtio,file=/Users/alsuren/Downloads/fedora-coreos-34.20210725.3.0-qemu.x86_64.qcow2 \
+    -fw_cfg name=opt/com.coreos/config,file=coreos/docker-host.ign \
+    -nic user,model=virtio,hostfwd=tcp::2222-:22
 ```
 
 After about 200 seconds, you end up with a box that you can ssh into, like this:
@@ -46,19 +46,109 @@ ssh core@localhost -p 2222
 ```
 
 ... but can I use it for doing docker-fwd things?
+
+Dump this in ~/.ssh/config:
 ```
-SSH='ssh core@localhost -p 2222'
-$SSH mkdir -p ./$PWD
-$SSH git init ./$PWD
-git remote add docker-fwd --fetch ssh://core@localhost:2222/var/home/core/$PWD
+Host localhost
+  User core
+  HostName localhost
+  Port 2222
+```
+
+```
+ssh localhost mkdir -p ./$PWD
+ssh localhost git init ./$PWD
+git remote add docker-fwd --fetch localhost:./$PWD
 
 git push docker-fwd HEAD:incoming
-$SSH "cd ./$PWD && git reset --hard incoming"
+ssh localhost "cd ./$PWD && git reset --hard incoming"
 
 git commit
 git push docker-fwd HEAD:incoming
-$SSH "cd ./$PWD && git merge --ff-only incoming"
+ssh localhost "cd ./$PWD && git merge --ff-only incoming"
 ```
 🎉
 
 And then you can open vscode remote over ssh and keep hacking.
+
+<!-- in practice, vscode prompts you to add an entry to ~/.ssh/config, which makes the above a bit simpler -->
+
+Running docker is hella-slow though.
+
+```
+docker run --rm \
+  --volume="$PWD:/srv/jekyll" \
+  -it jekyll/jekyll:latest \
+  jekyll build
+```
+
+- [ ] work out how to specify groups in the butane configs
+
+Once you've added yourself to the docker group
+takes half an age, and then gives:
+
+```
+/usr/local/lib/ruby/2.7.0/fileutils.rb:250:in `mkdir': Permission denied @ dir_s_mkdir - /srv/jekyll/.jekyll-cache (Errno::EACCES)
+```
+
+It seems that I'm going to be fighting against half a decade of sloppy docker permissions
+
+### Saturday
+
+persistent filesystem:
+
+```
+qemu-img create -f qcow2 -b /Users/alsuren/Downloads/fedora-coreos-34.20210725.3.0-qemu.x86_64.qcow2
+```
+```
+qemu-system-x86_64 -m $((1024*8)) -nographic \
+    -drive if=virtio,file=my-fcos-vm.qcow2 \
+    -fw_cfg name=opt/com.coreos/config,file=$HOME/src/docker-fwd/coreos/docker-host.ign \
+    -nic user,model=virtio,hostfwd=tcp::2222-:22
+```
+
+For some reason, vscode doesn't like to connect to this today. I will try a distribution that I understand and come back to it.
+
+
+Let's try this first: https://fabianlee.org/2020/03/14/kvm-testing-cloud-init-locally-using-kvm-for-a-centos-cloud-image/
+
+... okay, maybe https://sumit-ghosh.com/articles/create-vm-using-libvirt-cloud-images-cloud-init/
+
+```
+genisoimage -output cidata.iso -V cidata -r -J user-data meta-data
+```
+becomes (according to https://apple.stackexchange.com/questions/121491/equivalents-for-genisoimage-and-qemu-img-on-ubuntu)
+```
+brew install cdrtools
+mkisofs -output cidata.iso -V cidata -r -J user-data meta-data
+```
+
+```
+qemu-img create -f qcow2 -b  ~/Downloads/debian-10-openstack-amd64.qcow2 debian-10-openstack-amd64.qcow2 30G
+```
+```
+qemu-system-x86_64 -m $((1024*8)) -nographic \
+    -drive if=virtio,file=debian-10-openstack-amd64.qcow2 \
+	-cdrom cidata.iso \
+    -nic user,model=virtio,hostfwd=tcp::2222-:22
+```
+
+
+Each time you nuke the image, you need to run this to clear out the `[localhost]` entry in known_hosts, like this:
+```
+sed -i '' -n  '/^[^[]/p' ~/.ssh/known_hosts
+```
+
+VSCode ssh seems a bit fucked. It starts up fine and then errors out a few seconds after opening a folder.
+
+The green-and-blue debian prompt makes feel more powerful than the coreos monochrome one. Funny how our minds work.
+
+### Back to docker again
+
+I ended up adding this to my ssh config (dof being shorthand for docker-fwd):
+```
+Host dof
+  HostName localhost
+  Port 2222
+```
+I now have a vm that's capable of running docker images, so now I can start debugging my theme.
