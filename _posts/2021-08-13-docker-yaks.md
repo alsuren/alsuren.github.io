@@ -2,9 +2,9 @@
 title: Docker Yaks
 ---
 
-I have given myself a target of not installing Docker Desktop on this laptop since I did the reinstall.
+I have given myself a target of not installing Docker Desktop on this laptop since I did the reinstall. Let's see how much pain that causes.
 
-I also don't want to install VirtualBox, because it feels like a dead end. For some reason, `brew install --cask vagrant` wants root access (maybe its' just because they decided to dump files in /opt/vagrant? Maybe it bundles VirtualBox? At any rate, I decided against installing it)
+I also don't want to install VirtualBox, because it feels like a dead end. For some reason, `brew install --cask vagrant` wants root access (maybe it's just because they decided to dump files in /opt/vagrant? Maybe it bundles VirtualBox? At any rate, I decided against installing it)
 
 Qemu is capable of installing without root, because it uses the MacOS Hypervisor.Framework. It is also what the Android AVD emulation system uses under the hood, last time I checked.
 
