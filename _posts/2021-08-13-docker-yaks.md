@@ -12,13 +12,13 @@ What can I install with qemu and no vagrant?
 
 My first thought was to try packer, but all of the public packer templates that mention qemu are significantly out of date, and don't build.
 
-I started looking around for qcow2 images, and searching for "qcow2 debian" finds some images for use with OpenStack at https://cdimage.debian.org/cdimage/openstack/current/. I don't have any of the openstack tools installed on my mac, but maybe I can still use the images?
+I started looking around for qcow2 images, and searching for "qcow2 debian" finds some images for use with OpenStack at [https://cdimage.debian.org/cdimage/openstack/current/](https://cdimage.debian.org/cdimage/openstack/current/). I don't have any of the openstack tools installed on my mac, but maybe I can still use the images?
 
-Fedora has a `cloud` spin, and also `coreos`. I downloaded both. CoreOS from https://getfedora.org/en/coreos/download?tab=metal_virtualized&stream=stable
+Fedora has a `cloud` spin, and also `coreos`. I downloaded both. CoreOS from [https://getfedora.org/en/coreos/download?tab=metal_virtualized&stream=stable](https://getfedora.org/en/coreos/download?tab=metal_virtualized&stream=stable)
 
 The coreos installation requires virt-install, which requires python gobject-introspection bindings, which don't seem easy to install.
 
-Following https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/ to produce an ignition file, and then using the virt-install command on https://docs.fedoraproject.org/en-US/fedora-coreos/getting-started/ to guess what the underlying qemu command might look like, we get:
+Following [https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/](https://docs.fedoraproject.org/en-US/fedora-coreos/producing-ign/) to produce an ignition file, and then using the virt-install command on [https://docs.fedoraproject.org/en-US/fedora-coreos/getting-started/](https://docs.fedoraproject.org/en-US/fedora-coreos/getting-started/) to guess what the underlying qemu command might look like, we get:
 
 ```bash
 qemu-system-x86_64  -nographic /Users/alsuren/Downloads/fedora-coreos-34.20210725.3.0-qemu.x86_64.qcow2 -fw_cfg name=opt/com.coreos/config,file=coreos/docker-host.ign
@@ -32,7 +32,7 @@ which gets quite a long way, and then says:
 
 (`killall qemu-system-x86_64` is the only way to escape from this, and it puts the shell into a strange state, so readline editing of long commands stop working, so be ready to throw away a lot of shells)
 
-They do have a page on using qemu directly: https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-qemu/
+They do have a page on using qemu directly: [https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-qemu/](https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-qemu/)
 
 Adapting their example to our filenames, we get:
 ```bash
@@ -84,7 +84,7 @@ docker run --rm \
   jekyll build
 ```
 
-- [ ] work out how to specify groups in the butane configs
+- [x] work out how to specify groups in the butane configs
 
 Once you've added yourself to the docker group
 takes half an age, and then gives:
@@ -112,14 +112,14 @@ qemu-system-x86_64 -m $((1024*8)) -nographic \
 For some reason, vscode doesn't like to connect to this today. I will try a distribution that I understand and come back to it.
 
 
-Let's try this first: https://fabianlee.org/2020/03/14/kvm-testing-cloud-init-locally-using-kvm-for-a-centos-cloud-image/
+Let's try this first: [https://fabianlee.org/2020/03/14/kvm-testing-cloud-init-locally-using-kvm-for-a-centos-cloud-image/](https://fabianlee.org/2020/03/14/kvm-testing-cloud-init-locally-using-kvm-for-a-centos-cloud-image/)
 
-... okay, maybe https://sumit-ghosh.com/articles/create-vm-using-libvirt-cloud-images-cloud-init/
+... okay, maybe [https://sumit-ghosh.com/articles/create-vm-using-libvirt-cloud-images-cloud-init/](https://sumit-ghosh.com/articles/create-vm-using-libvirt-cloud-images-cloud-init/)
 
 ```bash
 genisoimage -output cidata.iso -V cidata -r -J user-data meta-data
 ```
-becomes (according to https://apple.stackexchange.com/questions/121491/equivalents-for-genisoimage-and-qemu-img-on-ubuntu)
+becomes (according to [https://apple.stackexchange.com/questions/121491/equivalents-for-genisoimage-and-qemu-img-on-ubuntu](https://apple.stackexchange.com/questions/121491/equivalents-for-genisoimage-and-qemu-img-on-ubuntu))
 ```bash
 brew install cdrtools
 mkisofs -output cidata.iso -V cidata -r -J user-data meta-data
