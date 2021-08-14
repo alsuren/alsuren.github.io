@@ -1,6 +1,7 @@
 ---
 title: Initial impressions of nushell
 ---
+
 Recently I've been recording my impressions of technologies as I start using them. This is so that I can remember what my pain points are when I'm onboarding other people later, or contributing to the project.
 
 ## Why am I doing this?
