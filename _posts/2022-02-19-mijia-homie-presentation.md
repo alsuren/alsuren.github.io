@@ -1,118 +1,103 @@
 # Monitoring Temperature (with too many Bluetooth thermometers)
 
+[title]: #title
+
 ![](../images/presentation/title.jpg)
 
 This is the blog post form of a presentation given at Rust London - 27 April 2021.
 
-The video is [on youtube](https://www.youtube.com/watch?v=Xus85dOx3ns), and slides are available [in the project's repo](https://alsuren.github.io/mijia-homie/docs/presentation/).
+A video of the talk is available [on youtube](https://www.youtube.com/watch?v=Xus85dOx3ns), and slides are available [in the project's repo](https://alsuren.github.io/mijia-homie/docs/presentation/).
+
+The slides are written in markdown using [remark](https://remarkjs.com/), and this blog is also markdown. Let's see how well this translation job goes.
 
 ---
 
 # Outline
 
-- Backstory
+[outline]: #Outline
 
-- System Overview
+- [Backstory](Backstory)
 
-  - Rust
-  - MQTT
-  - Bluetooth when we started
-  - Concurrency
-  - Bluetooth Developments
+- [System Overview](#system-overview)
 
-- Pretty Graphs
+  - [Rust](#Rust)
+  - [MQTT](#MQTT)
+  - [Bluetooth when we started](#bluetooth-2020)
+  - [Concurrency](#Concurrency)
+  - [Bluetooth Developments](#bluetooth-developments)
 
-- Closing Remarks
+- [Pretty Graphs](#Results)
 
-- Links and Questions
+- [Closing Remarks](#closing)
+
+- [Links and Questions](#Links)
 
 ---
 
 # Backstory
 
-- We started with a few ESP32 dev-boards like this:
-  ![](../images/presentation/inception-yun_hat_04.jpg)
-- These cost around US$16 each, and don't last more than about a day on battery
-  power.
+[backstory]: #Backstory
 
-???
+We started with a few ESP32 dev-boards like this:
+
+![](../images/presentation/inception-yun_hat_04.jpg)
+
+These cost around US$16 each, and don't last more than about a day on battery power.
 
 ESP32 is a super-cheap system on chip with bluetooth and wifi, but dev-boards will always be more expensive than commercial off-the-shelf hardware.
 
----
+During lockdown, we were setting around the dinner table, and I asked my housemate "Wouldn't it be nice to have a hundred temperature sensors? What could we do with that many sensors?"
 
-# Backstory
-
-<pre>
-
-
-
-
-
-
-
-</pre>
-
-## "Wouldn't it be nice to have a hundred temperature sensors?"
-
----
-
-# Backstory
-
-- So we bought 20 of these, at $3 each.
+So we bought 20 of these, at $3 each, and hooked them up to the internet.
 
 ![](../images/presentation/inception-order.png)
 
 <!-- TODO: receipt for the other 80 -->
 
----
-
 # System Overview
 
-- This is what we built:
+[system-overview]: #system-overview
+
+This is what we built:
 
 ![](../images/presentation/system-overview.embed.svg)
 
----
+Let's take a look at the decisions we made, how they turned out.
 
 # Rust
 
-- We're both starting to use Rust for work, so good for learning.
+[rust]: #Rust
 
-  - Andrew is working on crossvm and Virt Manager for Android.
-  - I was using Rust for the backend of the FutureNHS project.
+We picked Rust because we were both starting to use Rust for work, so using Rust for a personal project was a good opportunity for learning, for both of us.
 
-- Good chance to work on something together during lockdown.
+Andrew is working on [crosvm](https://chromium.googlesource.com/chromiumos/platform/crosvm/) and [Virt Manager](https://android.googlesource.com/platform/packages/modules/Virtualization/+/refs/heads/master/virtmanager/) for Android.
 
-- I found a blog post describing how to connect to these sensors with Rust.
+I was using Rust for the backend of the [FutureNHS](https://github.com/FutureNHS/futurenhs-platform/) project (I have since worked on other Rust projects at Red Badger, and moved on to work at [Tably.com](https://tably.com), with backend and frontend written in Rust).
 
-???
+It was also a good chance to work on something together during lockdown.
 
-[crosvm](https://chromium.googlesource.com/chromiumos/platform/crosvm/)
-[Virt Manager](https://android.googlesource.com/platform/packages/modules/Virtualization/+/refs/heads/master/virtmanager/)
-
-[FutureNHS](https://github.com/FutureNHS/futurenhs-platform/).
-
-[blog post](https://dev.to/lcsfelix/using-rust-blurz-to-read-from-a-ble-device-gmb)
-
----
+I also found a [blog post](https://dev.to/lcsfelix/using-rust-blurz-to-read-from-a-ble-device-gmb) describing how to connect to these sensors with Rust. This gave us the burst of momentum that we needed to start the project, but in the end, we outgrew its initial structure, and made our own project.
 
 # MQTT
 
-- MQTT is the pubsub of choice for low-powered gadgets.
+[mqtt]: #MQTT
 
-- Homie is an auto-discovery convention built on MQTT.
+MQTT is the pubsub of choice for low-powered gadgets.
 
-- `rumqttc` library is pretty good:
+Homie is an auto-discovery convention built on MQTT.
 
-  - Works using channels, which is nice.
-  - Andrew has submitted patches, and they were well received.
+In Rust, the `rumqttc` library is pretty good:
+
+- It works using channels, which is a nice interface.
+- Andrew has submitted patches, and they were well received.
 
 ---
 
 # Rust Bluetooth in 2020
 
-<!-- TODO: make this into a thin summary slide and move interesting content to new slides -->
+[bluetooth-2020]: #bluetooth-2020
+
+The state of Rust Bluetooth in 2020 was a little underwhelming. The options were:
 
 - `blurz` - "Bluetooth from before there was Tokio"
   - We started with this.
@@ -131,70 +116,34 @@ ESP32 is a super-cheap system on chip with bluetooth and wifi, but dev-boards wi
 
 ---
 
-# Concurrency
+# Aside: Concurrency
 
-- The problem with a single-threaded blocking Bluetooth library:
+[concurrency]: #Concurrency
+
+- The main problem with `blurz` was that it exposed a single-threaded blocking library interface:
   ![](../images/presentation/single-threaded-blocking.embed.svg)
 
----
+We realised that there was a third approach:
 
-# Rust Bluetooth in 2020
+- `dbus-rs` - aka "roll your own BlueZ wrapper"
+  - We could generate a "-sys" crate from D-Bus introspection, using the tools provided by the dbus-rs project.
+  - The `dbus-rs` codegen produces syncronous or async interfaces, so you can pick whichever approach you want.
 
-<!-- TODO: make this into a thin summary slide and move interesting content to new slides -->
+After switching to an async library, we got:
 
-- `blurz` - "Bluetooth from before there was Tokio"
-  - Talks to BlueZ over D-Bus, but single-threaded and synchronous.
-  - Blocking `device.connect()` calls. 😧
-  - Unmaintained (for 2 years).
-  - We started with this.
+![](../images/presentation/single-threaded-async.embed.svg)
 
-<!-- prettier-ignore-start -->
+This almost solves the problem, but not quite. In our case, everything lives in a big `Arc<Mutex<GlobalState>>`.
 
-- `btleplug` - "cross-platform jumble"
-  - Theoretically cross platform, but many features not implemented.
-  - Linux implementation needed root access.
-  - Too many panics for us to use.
+![](../images/presentation/single-threaded-mutex.embed.svg)
 
-<!-- prettier-ignore-end -->
+The solution is to hold the Mutex for as little time as possible.
 
---
+![](../images/presentation/single-threaded-mutex-final.embed.svg)
 
-- `dbus-rs` - "roll your own BlueZ wrapper"
-  - Generate code from D-Bus introspection.
-  - Async if you want.
+This is much better.
 
----
-
-# Concurrency
-
-- Switch to an async library:
-  ![](../images/presentation/single-threaded-async.embed.svg)
-
---
-
-- Almost.
-
----
-
-# Concurrency
-
-- In our case, everything lives in a big `Arc<Mutex<GlobalState>>`.
-  ![](../images/presentation/single-threaded-mutex.embed.svg)
-
----
-
-# Concurrency
-
-- So we hold the Mutex for as little time as possible.
-  ![](../images/presentation/single-threaded-mutex-final.embed.svg)
-
---
-
-- Much better.
-
----
-
-# Concurrency Summary
+These are the concurrency tools that we use:
 
 - `Arc<Mutex<GlobalState>`
 
@@ -218,92 +167,64 @@ ESP32 is a super-cheap system on chip with bluetooth and wifi, but dev-boards wi
 
 # Bluetooth Developments
 
-We ended up building our own Bluetooth library: `bluez-async`
+[bluetooth-developments]: #bluetooth-developments
+
+We ended up building on top of our "-sys" Bluetooth library, and created: `bluez-async`
 
 - Linux only
 - Typesafe async wrapper around BlueZ D-Bus interface.
 - Sent patches upstream to `dbus-rs` to improve code generation and support for complex types.
 - Didn't announce it anywhere, but issues filed (and a PR) by two other users so far.
 
---
-
-Andrew has been contributing to `btleplug`
+Andrew has also been contributing to `btleplug`
 
 - Ported to use `bluez-async` on Linux.
 - Exposes an async interface everywhere.
 - There are a few bugs that need fixing before they make a release though.
 
-???
-
-- [btleplug async pr](https://github.com/deviceplug/btleplug/pull/114)
-
----
-
 # Results
+
+[results]: #Results
 
 We now have graphs like this, with inside and outside readings:
 
 ![](../images/presentation/grafana-temperature.png)
 
-???
-
-Point at things you are mentioning, like "start of the day"
-
----
-
-# Results
-
 and readings from our fridge:
 
 ![](../images/presentation/grafana-fridge.png)
-
----
-
-# Results
 
 and we can plot trends using Pandas and Plotly:
 
 ![](../images/presentation/average-temperature-by-day.png)
 
----
-
 # Will's setup, with MiFlora sensors
+
+[will]: #will
 
 I gave some to my workmate:
 
 ![](../images/presentation/will-system-overview.embed.svg)
 
----
-
-# Will's setup, with MiFlora sensors
-
 so you can tell when Will waters his plants:
 
 ![](../images/presentation/will_moisture.png)
 
----
-
-# Will's setup, with MiFlora sensors
+[will-3]: #will-3
 
 and when the dehumidifier kicks in in the cellar:
 
 ![](../images/presentation/will_dehumidifier.png)
 
----
-
 # CloudBBQ
+
+[cloudbbq]: #CloudBBQ
 
 We also got it working with a meat thermometer:
 
 ![](../images/presentation/cloudbbq-system-overview.embed.svg)
 
-???
-
 Backstory: one of the people who sent us patches was using it with a bbq meat thermometer, so I bought one for Andrew as a joke present.
-
----
-
-# CloudBBQ
 
 so now we have a graph of our roast:
 
@@ -313,25 +234,27 @@ so now we have a graph of our roast:
 
 # Closing Remarks
 
+[closing]: #closing
+
 <!-- FIXME: diagram for this, to mirror Stu's -->
 
-- Separating things into layers (and crates) worked well:
+Separating things into layers (and crates) worked well:
 
-  - App (`mijia-homie`) -> Sensor (`mijia`) -> Bluetooth (`bluez-async`) -> D-Bus.
-  - App (`mijia-homie`) -> Homie (`homie-device`) -> MQTT.
-  - MQTT -> Homie (`homie-controller`) -> `homie-influx` -> InfluxDB
+- App (`mijia-homie`) -> Sensor (`mijia`) -> Bluetooth (`bluez-async`) -> D-Bus.
+- App (`mijia-homie`) -> Homie (`homie-device`) -> MQTT.
+- MQTT -> Homie (`homie-controller`) -> `homie-influx` -> InfluxDB
 
-- Deployment
+Deployment
 
-  - Everything is supervised by systemd.
-  - Built with Github Actions and `cross`, packaged with `cargo-deb`.
-    <!-- , hosted on Bintray. -->
-    <!-- except it's not, is it, because bintray is dead? -->
-    <!-- cross compiling to ARM is a pain if you need c libs, but cross makes it okay -->
-    <!-- cross compiling to ARM v6 even more of is a pain, as Will can testify, but we got there in the end -->
-  - Test coverage is a bit thin (blame me for this).
+- Everything is supervised by systemd.
+- Built with Github Actions and `cross`, packaged with `cargo-deb`.
+  <!-- , hosted on Bintray. -->
+  <!-- except it's not, is it, because bintray is dead? -->
+  <!-- cross compiling to ARM is a pain if you need c libs, but cross makes it okay -->
+  <!-- cross compiling to ARM v6 even more of is a pain, as Will can testify, but we got there in the end -->
+- Test coverage is a bit thin (blame me for this).
 
-- Raspberry Pi only supports 10 connected BLE devices (10 << 100).
+Raspberry Pi only supports 10 connected BLE devices (10 << 100).
 
 <!-- Rust is probably not the **best** language for this:
 
@@ -342,9 +265,9 @@ so now we have a graph of our roast:
 - We found a [Python project](https://github.com/JsBergbau/MiTemperature2) partway through, with
   similar objectives. -->
 
----
-
 # Links
+
+[links]: #Links
 
 - GitHub: https://github.com/alsuren/mijia-homie (includes this presentation)
 
@@ -357,5 +280,3 @@ so now we have a graph of our roast:
 - Bluetooth library https://crates.io/crates/bluez-async
 
 - `btleplug` async pr https://github.com/deviceplug/btleplug/pull/114
-
-# Questions?
