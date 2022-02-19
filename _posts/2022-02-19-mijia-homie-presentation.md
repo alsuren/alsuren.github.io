@@ -82,7 +82,7 @@ MQTT is the pubsub of choice for low-powered gadgets.
 
 Homie is an auto-discovery convention built on MQTT.
 
-In Rust, the `rumqttc` library is pretty good:
+In Rust, the [`rumqttc`](https://crates.io/crates/rumqtt) library is pretty good:
 
 - It works using channels, which is a nice interface.
 - Andrew has submitted patches, and they were well received.
@@ -93,7 +93,7 @@ In Rust, the `rumqttc` library is pretty good:
 
 The state of Rust Bluetooth in 2020 was a little underwhelming. The options were:
 
-- `blurz` - "Bluetooth from before there was Tokio"
+- [`blurz`](https://crates.io/crates/blurz) - "Bluetooth from before there was Tokio"
   - We started with this.
   - Talks to BlueZ over D-Bus, but single-threaded and synchronous.
   - Blocking `device.connect()` calls. 😧
@@ -101,7 +101,7 @@ The state of Rust Bluetooth in 2020 was a little underwhelming. The options were
 
 <!-- prettier-ignore-start -->
 
-- `btleplug` - "cross-platform jumble"
+- [`btleplug`](https://crates.io/crates/btleplug) - "cross-platform jumble"
   - Theoretically cross platform, but many features not implemented.
   - Linux implementation needed root access.
   - Too many panics for us to use.
@@ -117,7 +117,7 @@ The state of Rust Bluetooth in 2020 was a little underwhelming. The options were
 
 We realised that there was a third approach:
 
-- `dbus-rs` - aka "roll your own BlueZ wrapper"
+- [`dbus-rs`](https://crates.io/crates/dbus) - aka "roll your own BlueZ wrapper"
   - We could generate a "-sys" crate from D-Bus introspection, using the tools provided by the dbus-rs project.
   - The `dbus-rs` codegen produces syncronous or async interfaces, so you can pick whichever approach you want.
 
@@ -159,16 +159,16 @@ These are the concurrency tools that we use:
 
 [bluetooth-developments]: #bluetooth-developments
 
-We ended up building on top of our "-sys" Bluetooth library, and created: `bluez-async`
+We ended up building on top of our "-sys" Bluetooth library, and created: [`bluez-async`](https://crates.io/crates/bluez-async)
 
 - Linux only
 - Typesafe async wrapper around BlueZ D-Bus interface.
-- Sent patches upstream to `dbus-rs` to improve code generation and support for complex types.
+- Sent patches upstream to [`dbus-rs`](https://crates.io/crates/dbus) to improve code generation and support for complex types.
 - Didn't announce it anywhere, but issues filed (and a PR) by two other users so far.
 
-Andrew has also been contributing to `btleplug`
+Andrew has also been contributing to [`btleplug`](https://crates.io/crates/btleplug)
 
-- Ported to use `bluez-async` on Linux.
+- Ported btleplug to use `bluez-async` on Linux.
 - Exposes an async interface everywhere.
 - There are a few bugs that need fixing before they make a release though.
 
@@ -199,8 +199,6 @@ I gave some to my workmate:
 so you can tell when Will waters his plants:
 
 ![](/images/presentation/will_moisture.png)
-
-[will-3]: #will-3
 
 and when the dehumidifier kicks in in the cellar:
 
@@ -233,7 +231,7 @@ Separating things into layers (and crates) worked well:
 Deployment
 
 - Everything is supervised by systemd.
-- Built with Github Actions and `cross`, packaged with `cargo-deb`.
+- Built with Github Actions and [`cross`](https://crates.io/crates/cross), packaged with [`cargo-deb`](https://crates.io/crates/cargo-deb).
   <!-- , hosted on Bintray. -->
   <!-- except it's not, is it, because bintray is dead? -->
   <!-- cross compiling to ARM is a pain if you need c libs, but cross makes it okay -->
@@ -255,14 +253,14 @@ One major limitation is that the Raspberry Pi only supports 10 connected BLE dev
 
 [links]: #Links
 
-- GitHub: https://github.com/alsuren/mijia-homie (includes this presentation)
+- GitHub: [https://github.com/alsuren/mijia-homie (includes this presentation)](https://github.com/alsuren/mijia-homie)
 
-- Inspirational blog post https://dev.to/lcsfelix/using-rust-blurz-to-read-from-a-ble-device-gmb
+- Inspirational blog post [https://dev.to/lcsfelix/using-rust-blurz-to-read-from-a-ble-device-gmb](https://dev.to/lcsfelix/using-rust-blurz-to-read-from-a-ble-device-gmb)
 
-- Homie spec https://homieiot.github.io/
+- Homie spec [https://homieiot.github.io/](https://homieiot.github.io/)
 
-- Homie helper library https://crates.io/crates/homie-device
+- Homie helper library [https://crates.io/crates/homie-device](https://crates.io/crates/homie-device)
 
-- Bluetooth library https://crates.io/crates/bluez-async
+- Bluetooth library [https://crates.io/crates/bluez-async](https://crates.io/crates/bluez-async)
 
-- `btleplug` async pr https://github.com/deviceplug/btleplug/pull/114
+- `btleplug` [https://crates.io/crates/btleplug](https://crates.io/crates/btleplug)
