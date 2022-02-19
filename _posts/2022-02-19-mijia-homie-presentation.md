@@ -15,19 +15,14 @@ The slides are written in markdown using [remark](https://remarkjs.com/), and th
 [outline]: #Outline
 
 - [Backstory](Backstory)
-
 - [System Overview](#system-overview)
-
   - [Rust](#Rust)
   - [MQTT](#MQTT)
   - [Bluetooth when we started](#bluetooth-2020)
   - [Concurrency](#Concurrency)
   - [Bluetooth Developments](#bluetooth-developments)
-
 - [Pretty Graphs](#Results)
-
 - [Closing Remarks](#closing)
-
 - [Links and Questions](#Links)
 
 ## Backstory
