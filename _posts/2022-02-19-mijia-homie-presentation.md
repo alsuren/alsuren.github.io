@@ -1,6 +1,6 @@
-# Monitoring Temperature (with too many Bluetooth thermometers)
-
-[title]: #title
+---
+title: Monitoring Temperature (with too many Bluetooth thermometers)
+---
 
 ![](/images/presentation/title.jpg)
 
