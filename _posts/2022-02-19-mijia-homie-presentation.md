@@ -10,9 +10,7 @@ A video of the talk is available [on youtube](https://www.youtube.com/watch?v=Xu
 
 The slides are written in markdown using [remark](https://remarkjs.com/), and this blog is also markdown. Let's see how well this translation job goes.
 
----
-
-# Outline
+## Outline
 
 [outline]: #Outline
 
@@ -32,9 +30,7 @@ The slides are written in markdown using [remark](https://remarkjs.com/), and th
 
 - [Links and Questions](#Links)
 
----
-
-# Backstory
+## Backstory
 
 [backstory]: #Backstory
 
@@ -54,7 +50,7 @@ So we bought 20 of these, at $3 each, and hooked them up to the internet.
 
 <!-- TODO: receipt for the other 80 -->
 
-# System Overview
+## System Overview
 
 [system-overview]: #system-overview
 
@@ -64,7 +60,7 @@ This is what we built:
 
 Let's take a look at the decisions we made, how they turned out.
 
-# Rust
+## Rust
 
 [rust]: #Rust
 
@@ -78,7 +74,7 @@ It was also a good chance to work on something together during lockdown.
 
 I also found a [blog post](https://dev.to/lcsfelix/using-rust-blurz-to-read-from-a-ble-device-gmb) describing how to connect to these sensors with Rust. This gave us the burst of momentum that we needed to start the project, but in the end, we outgrew its initial structure, and made our own project.
 
-# MQTT
+## MQTT
 
 [mqtt]: #MQTT
 
@@ -91,9 +87,7 @@ In Rust, the `rumqttc` library is pretty good:
 - It works using channels, which is a nice interface.
 - Andrew has submitted patches, and they were well received.
 
----
-
-# Rust Bluetooth in 2020
+## Rust Bluetooth in 2020
 
 [bluetooth-2020]: #bluetooth-2020
 
@@ -114,9 +108,7 @@ The state of Rust Bluetooth in 2020 was a little underwhelming. The options were
 
 <!-- prettier-ignore-end -->
 
----
-
-# Aside: Concurrency
+## Aside: Concurrency
 
 [concurrency]: #Concurrency
 
@@ -163,9 +155,7 @@ These are the concurrency tools that we use:
   - Just the async version of Iterator.
   - `map()`, `filter()` and `select_all()` are easy to use.
 
----
-
-# Bluetooth Developments
+## Bluetooth Developments
 
 [bluetooth-developments]: #bluetooth-developments
 
@@ -182,7 +172,7 @@ Andrew has also been contributing to `btleplug`
 - Exposes an async interface everywhere.
 - There are a few bugs that need fixing before they make a release though.
 
-# Results
+## Results
 
 [results]: #Results
 
@@ -198,7 +188,7 @@ and we can plot trends using Pandas and Plotly:
 
 ![](../images/presentation/average-temperature-by-day.png)
 
-# Will's setup, with MiFlora sensors
+## Will's setup, with MiFlora sensors
 
 [will]: #will
 
@@ -216,23 +206,19 @@ and when the dehumidifier kicks in in the cellar:
 
 ![](../images/presentation/will_dehumidifier.png)
 
-# CloudBBQ
+## CloudBBQ
 
 [cloudbbq]: #CloudBBQ
 
-We also got it working with a meat thermometer:
+We also got it working with a meat thermometer (backstory: one of the people who sent us patches was using it with a bbq meat thermometer, so I bought one for Andrew as a joke present):
 
 ![](../images/presentation/cloudbbq-system-overview.embed.svg)
-
-Backstory: one of the people who sent us patches was using it with a bbq meat thermometer, so I bought one for Andrew as a joke present.
 
 so now we have a graph of our roast:
 
 ![](../images/presentation/cloudbbq-lamb.png)
 
----
-
-# Closing Remarks
+## Closing Remarks
 
 [closing]: #closing
 
@@ -254,7 +240,7 @@ Deployment
   <!-- cross compiling to ARM v6 even more of is a pain, as Will can testify, but we got there in the end -->
 - Test coverage is a bit thin (blame me for this).
 
-Raspberry Pi only supports 10 connected BLE devices (10 << 100).
+One major limitation is that the Raspberry Pi only supports 10 connected BLE devices (10 << 100). The way to get around this problem would be to make the mijia sensors include the temperature and humidity data in their advertising broadcast packets, and then passively listen to them on the raspberry pi. There are a handful of projects that provide flash custom firmware for the mijia sensors, and many of them let you do exactly this. If anyone has done this to their sensors, we would be really interested to hear from you. Adding support for reading sensors in this way would allow us to deploy many more sensors, and would also drastically reduce how many cell batteries we go through in a year.
 
 <!-- Rust is probably not the **best** language for this:
 
@@ -265,7 +251,7 @@ Raspberry Pi only supports 10 connected BLE devices (10 << 100).
 - We found a [Python project](https://github.com/JsBergbau/MiTemperature2) partway through, with
   similar objectives. -->
 
-# Links
+## Links
 
 [links]: #Links
 
