@@ -67,9 +67,9 @@ It's worth digging into the `cargo-quickinstall` trust model at this point.
 
 The trust model is currently:
 
-a) you trust the author of the crate that you asked for, and its dependencies.
-b) you trust me to be acting in good faith, and to have configured GitHub actions and GitHub releases correctly, and my sandboxing when to be adequate.
-c) you trust GitHub not to fuck everyone over on purpose.
+1. you trust the author of the crate that you asked for, and its dependencies.
+2. you trust me to be acting in good faith, and to have configured GitHub actions and GitHub releases correctly, and my sandboxing when to be adequate.
+3. you trust GitHub not to fuck everyone over on purpose.
 
 `cargo-quickinstall` does not trust the author of **any** package on crates.io. As soon as we have run the crate's build.rs or any proc macros, we must treat the build box as compromised. There is some gymnastics involved here, so bear with me.
 
