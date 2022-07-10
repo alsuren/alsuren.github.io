@@ -95,7 +95,7 @@ There are probably massive holes in this logic. Even if it's all sound, `cargo-q
 
 There is a bit of a chicken-and-egg problem with the approach I have described so far. If you don't have any users then you won't have any idea which packages need to be built. New users will always find that we don't have the packages that they want, so they will stop using our service. This means they will not tell us the names of any more packages that they want building.
 
-To break this cycle, I made a list of popular packages by grabbing the html from https://lib.rs/command-line-utilities and pulling out the package names into a flat text file using [`pup`](https://github.com/EricChiang/pup) and `jq`.
+To break this cycle, I made a list of popular packages by grabbing the html from [https://lib.rs/command-line-utilities](https://lib.rs/command-line-utilities) and pulling out the package names into a flat text file using [`pup`](https://github.com/EricChiang/pup) and `jq`.
 
 ### Skipping broken packages
 
