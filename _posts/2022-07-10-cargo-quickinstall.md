@@ -119,7 +119,7 @@ I have really enjoyed working with external contributors on cargo-quickinstall. 
 
 ## Next Steps
 
-There are a few open issues [on the board](https://github.com/alsuren/cargo-quickinstall/projects/1), and I'm happy to mentor people on any of them. The issue that I'm especially interested in mentoring someone on is [the one for building static binaries for non-ubuntu-20.04 support, and shelling out to `cargo-binstall` for the more complex fallback behaviour](https://github.com/alsuren/cargo-quickinstall/issues/84).
+There are a few open issues [on the board](https://github.com/alsuren/cargo-quickinstall/projects/1?fullscreen=true), and I'm happy to mentor people on any of them. The issue that I'm especially interested in mentoring someone on is [the one for building static binaries for non-ubuntu-20.04 support, and shelling out to `cargo-binstall` for the more complex fallback behaviour](https://github.com/alsuren/cargo-quickinstall/issues/84).
 
 At the moment, there are no time-critical issues on the board (no security issues, and nothing that represents a regression for existing users in CI), so I am mostly leaving things open and offering mentoring on them. It is more valuable at the moment to get more people familiar with the codebase, and improve the bus-factor of the project.
 
