@@ -20,7 +20,7 @@ Back when I was working at Red Badger, we had some GitHub Actions pipelines that
 
 When that project wound down, I had some bench time, so I decided try doing something about it. I would build a service that would pre-build your rust tools for you.
 
-The initial implementation of cargo-quickinstall was hacked together in less than a week. I also took the opportunity to make as many terrible architectural decisions as possibe. Proper resume-driven development. Good times.
+The initial implementation of cargo-quickinstall was hacked together in less than a week. I also took the opportunity to make as many terrible architectural decisions as possible. Proper resume-driven development. Good times.
 
 ## Initial Implementation
 
@@ -29,7 +29,7 @@ Following the Red Badger philosophy of "build the right thing, build the thing r
 
 ### Stats Server
 
-Looking through `git log --reverse --stat` to write this post has been really interesting. It seems that I started out by creating a cloudflare-workers project in rust, with wrangler, using their KV store. I think it had only just come out at the time, and I quickly realised that taking this approach would be an uphill battle. I don't think there were even official rust bindings to thier KV store at the time. I also read somewhere that their KV store was *heavily* read-optimised (as-in "please think of this as a configuration store, and don't try to make more than 1 write per second", or something). I had grand dreams that I would ever receive more than 1 request per second, so I decided to switch tack.
+Looking through `git log --reverse --stat` to write this post has been really interesting. It seems that I started out by creating a cloudflare-workers project in rust, with wrangler, using their KV store. I think it had only just come out at the time, and I quickly realised that taking this approach would be an uphill battle. I don't think there were even official rust bindings to their KV store at the time. I also read somewhere that their KV store was *heavily* read-optimised (as-in "please think of this as a configuration store, and don't try to make more than 1 write per second", or something). I had grand dreams that I would ever receive more than 1 request per second, so I decided to switch tack.
 
 The boring choice would be to spin up a heroku app and write to postgres. That was far too boring though. What other hilarious resume-expanding technology stack could I use?
 
@@ -37,7 +37,7 @@ One of the most fundamental requirements for quickbuild has always been that it 
 
 I remembered meeting with an ad-tech company at a careers fair a few years earlier, and they had a fun architecture. They didn't have *any* of their own servers in the hot loop of serving customers. They would serve *everything* from CDN, including tracking pixels, and then have a cronjob that parsed the CDN logs and used that to generate invoices to their customers. Clever, right? Web Scale!
 
-Following this piece of faultless architectural inspiration, I span up an empty vercel project, and started spamming it with requests to ramdom non-existent pages. I then hooked up the log drain to sematext. My client would make a request to a non-existent page, and immediately receive a 404 response, and then I would periodically query the sematext elasticsearch API. No cold-start lambda delays to worry about. Brilliant.
+Following this piece of faultless architectural inspiration, I span up an empty vercel project, and started spamming it with requests to random non-existent pages. I then hooked up the log drain to sematext. My client would make a request to a non-existent page, and immediately receive a 404 response, and then I would periodically query the sematext elasticsearch API. No cold-start lambda delays to worry about. Brilliant.
 
 ### Artifact Storage
 
@@ -85,7 +85,7 @@ Security notice: I'm assuming that all runners are able to use `actions/upload-a
 
 Once the builder is finished, we throw it in the bin and spin up a new `ubuntu-20.04` runner. This downloads the tarball from `actions/upload-artifact` and uploads it to GitHub Releases (previously bintray - see later).
 
-By doing this whole dance, we ensure that a malicious crate author can only poisin the tarball of their own crate, or any crates that depends on their crate. If you run `cargo install $CRATE` then you already trust every crate in `$CRATE`'s dependency tree, and you already trust GitHub for the crates.io index. Assuming that you trust `cargo-quickinstall` and that our sandboxing is solid, by using `cargo install $CRATE`, you're not forced to trust anyone that you're not already trusting by running `cargo install $CRATE`.
+By doing this whole dance, we ensure that a malicious crate author can only poison the tarball of their own crate, or any crates that depends on their crate. If you run `cargo install $CRATE` then you already trust every crate in `$CRATE`'s dependency tree, and you already trust GitHub for the crates.io index. Assuming that you trust `cargo-quickinstall` and that our sandboxing is solid, by using `cargo install $CRATE`, you're not forced to trust anyone that you're not already trusting by running `cargo install $CRATE`.
 
 <!-- TODO: no really. A diagram would be fantastic here. -->
 
