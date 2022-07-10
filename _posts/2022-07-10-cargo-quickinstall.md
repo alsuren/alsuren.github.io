@@ -2,7 +2,7 @@
 title: cargo-quickinstall 
 ---
 
-![Simples!](/images/quickinstall/quickinstall-blog-post.excalidraw.png)
+![Full Architecture diagram for cargo-quickinstall](/images/quickinstall/quickinstall-blog-post.excalidraw.png)
 
 I made a thing.
 
@@ -24,7 +24,6 @@ The initial implementation of cargo-quickinstall was hacked together in less tha
 
 ## Initial Implementation
 
-
 Following the Red Badger philosophy of "build the right thing, build the thing right", I decided to build the mechanism for getting user's package-build requests first. That way, my service would always be "build the right thing".
 
 ### Stats Server
@@ -37,29 +36,30 @@ One of the most fundamental requirements for quickbuild has always been that it 
 
 I remembered meeting with an ad-tech company at a careers fair a few years earlier, and they had a fun architecture. They didn't have *any* of their own servers in the hot loop of serving customers. They would serve *everything* from CDN, including tracking pixels, and then have a cronjob that parsed the CDN logs and used that to generate invoices to their customers. Clever, right? Web Scale!
 
-Following this piece of faultless architectural inspiration, I span up an empty vercel project, and started spamming it with requests to random non-existent pages. I then hooked up the log drain to sematext. My client would make a request to a non-existent page, and immediately receive a 404 response, and then I would periodically query the sematext elasticsearch API. No cold-start lambda delays to worry about. Brilliant.
+Following this piece of faultless architectural inspiration, I span up an empty vercel project, and started spamming it with requests to random non-existent pages. I then hooked up the log drain to sematext. My client would make a request to a non-existent page, and immediately receive a 404 response. I would then periodically query the sematext elasticsearch API. No cold-start lambda delays to worry about. Brilliant.
+
+(In practice, when I made the client, I made it do this request in a background thread anyway, so it doesn't *really* matter how long my cold-start time is).
 
 ### Artifact Storage
 
-I was already using Bintray for debian package repository hosting on [another personal project](https://github.com/alsuren/mijia-homie). I hacked up a script to build a package and upload it to bintray, ran it on a single package to get me started, and moved on.
+I was already using Bintray for debian package repository hosting on [another personal project](https://github.com/alsuren/mijia-homie). I hacked up a script to build a package and upload it to bintray from my laptop. I ran it on a single package to get me started, and moved on.
 
 ### Client
 
-I made the `cargo-quickinstall` client, which was basically a glorified bash script. I wanted `cargo install cargo-quickinstall` to be as quick as possible, so I only used things that were in std, and shelled out to the system's `curl` and `tar` binaries to do the actual work. `curl` and `tar` are both available on modern windows boxes by default, so this turns out to be a portable choice. I also initially did json parsing with `jq`, but this has since been replaced with `tinyjson` because apparently nobody has `jq` installed.
+Next on the list was the `cargo-quickinstall` client. This is basically a glorified bash script. I wanted `cargo install cargo-quickinstall` to be as quick as possible, so I only used things that were in `std`, and shelled out to the system's `curl` and `tar` binaries to do the actual work. `curl` and `tar` are both available on modern Windows boxes by default, so this turns out to be a surprisingly portable choice. I also initially did json parsing with `jq`, but this has since been replaced with `tinyjson` because apparently nobody has `jq` installed (they don't know what they're missing).
 
-The initial client basically did this, but using bintray rather than github releases (more about that later):
+The initial client basically did this:
 
-![](/images/quickinstall/quickinstall-blog-post-client.excalidraw.png)
+![](/images/quickinstall/quickinstall-blog-post-bintray-client.excalidraw.png)
 
 ### GitHub Actions
 
 The automated builder is responsible for this half of the architecture diagram:
 
-![](/images/quickinstall/quickinstall-blog-post-builder.excalidraw.png)
+![](/images/quickinstall/quickinstall-blog-post-sematext-builder.excalidraw.png)
 
-The initial implementation got its list of requested crates from sematext rather than directly from the vercel stats service (more on that later). It was also a whole lot simpler - it would just make a list of all requested packages, and try to build + upload the first one that we didn't have a package of, then exit. If there was nothing to do then it would just build `cargo-quickinstall` for good luck (which only takes a couple of seconds, so isn't that much wasted work).
+The initial implementation got its list of requested crates from sematext's elasticsearch api. It was pretty simple - it would just make a list of all requested packages, and try to build + upload the first one that we didn't already have a package of in bintray. If there was nothing to do then it would just build `cargo-quickinstall` for good luck (which only takes a couple of seconds, so isn't that much wasted work).
 
-<!-- TODO: make a more detailed diagram of how this all ended up -->
 
 #### Security and Trust
 
@@ -77,48 +77,56 @@ c) you trust GitHub not to fuck everyone over on purpose.
 
 The cronjob works out which crate needs to be built next for each target architecture, and which runner OS we need to build it on.
 
-The workflow that does the building is given $CRATE $VERSION $BUILD_OS and $TARGET_ARCH. We currently supply these variables by running `sed` over a template, and committing the result to git. If I was writing it again today, I would probably do it using proper actions with arguments, but this works okay enough for now.
+The workflow that does the building is given `$CRATE` `$VERSION` `$BUILD_OS` and `$TARGET_ARCH`. We currently supply these variables by running `sed` over a template, and committing the result to git. If I was writing it again today from scratch, I might revisit this decision, but this works well enough for now.
 
-We spin up a runner with $BUILD_OS on it, and do the build. This essentially runs `cargo install $crate` and then tars up the resulting binaries and uses `actions/upload-artifact` to upload it, so that it is available for other jobs in the build pipeline. 
+We spin up a runner with `$BUILD_OS` on it, and do the build. This essentially runs `cargo install $crate` and then tars up the resulting binaries and uses `actions/upload-artifact` to upload it with a known filename, so that it is available for other jobs in the same build pipeline. 
 
-Security notice: I'm assuming that all runners are able to use `actions/upload-artifact` without any extra creds. I've not really dug into it that much. If it turns out that the runner is being given some kind of god token, and that token is available to `$CRATE`'s untrusted `build.rs` for doing anything other than uploading build artifacts then we're in big trouble. If you believe this to be the case, please email me so that I can stop building new packages and do an audit.
+Security notice: I'm assuming that all runners are able to use `actions/upload-artifact` without any extra creds. I've not really dug into it that much. If it turns out that the runner is being given some kind of god token, and that token is available to `$CRATE`'s untrusted `build.rs` for doing anything other than uploading build artifacts then we're in big trouble. If you believe this to be the case, please email me so that I can stop building new packages and do a proper audit/redesign.
 
-Once the builder is finished, we throw it in the bin and spin up a new `ubuntu-20.04` runner. This downloads the tarball from `actions/upload-artifact` and uploads it to GitHub Releases (previously bintray - see later).
+Once the builder is finished, we throw it in the bin, and spin up a new `ubuntu-20.04` runner. This downloads the tarball from `actions/upload-artifact` and uploads it to GitHub Releases (previously bintray).
 
 By doing this whole dance, we ensure that a malicious crate author can only poison the tarball of their own crate, or any crates that depends on their crate. If you run `cargo install $CRATE` then you already trust every crate in `$CRATE`'s dependency tree, and you already trust GitHub for the crates.io index. Assuming that you trust `cargo-quickinstall` and that our sandboxing is solid, by using `cargo install $CRATE`, you're not forced to trust anyone that you're not already trusting by running `cargo install $CRATE`.
 
-<!-- TODO: no really. A diagram would be fantastic here. -->
+![Sequence diagram of GitHub Actions builders](/images/quickinstall/quickinstall-blog-post-ci-sequence-diagram.excalidraw.png)
 
 There are probably massive holes in this logic. Even if it's all sound, `cargo-quickinstall` has never been audited. If you work at Microsoft/GitHub and/or would like to sponsor a security researcher to help me audit this, please leave a comment on [this issue](https://github.com/alsuren/cargo-quickinstall/issues/49) or contact me privately.
 
 ## Bootstrapping the package list
 
-There is a bit of a chicken-and-egg problem with the approach I have described so far. If you don't have any users then you won't have any idea which packages need to be built, so new users will always find that we don't have the packages that they want, so they will stop using our service and never tell us the names of any more packages that need building.
+There is a bit of a chicken-and-egg problem with the approach I have described so far. If you don't have any users then you won't have any idea which packages need to be built. New users will always find that we don't have the packages that they want, so they will stop using our service. This means they will not tell us the names of any more packages that they want building.
 
-To break this cycle, I made a list of popular packages by grabbing the html from https://lib.rs/command-line-utilities and pulling out the package names from the html.
+To break this cycle, I made a list of popular packages by grabbing the html from https://lib.rs/command-line-utilities and pulling out the package names into a flat text file using [`pup`](https://github.com/EricChiang/pup) and `jq`.
 
 ### Skipping broken packages
 
-Not all crates build on all platforms. Initially, my builder didn't have any memory, so when it came across a package that it couldn't build, it would get stuck and attempt to rebuild it every hour until I manually excluded it. I also did each of the platforms in series, so a broken windows build would block progress on all platforms. It was also racey if a build took over an hour, or if I got impatient and triggered multiple builds in an hour.
+Not all crates build on all platforms. Initially, my builder didn't have any memory of what it had attempted to build, so when it came across a package that it couldn't build, it would get stuck and attempt to rebuild it every hour until I manually excluded it. It also did each of the platforms in series, so a broken windows build would block progress on all platforms. It was also racey, so if a build took over an hour (or if I got impatient and triggered multiple builds in an hour) it would sometimes build the same package twice, and then crash when trying to upload it.
 
-This is where the "sed the template and commit it to git" approach comes in. There is a branch for each target (`trigger/$TARGET`), and each time the cronjob builds, it checks out each `trigger/$TARGET` branch using `git worktree`, and checks what it last attempted to build. It then walks down the list of popular crates and makes a new commit to trigger a build of the next crate *after* the one that was last attempted. We still did a lot of useless builds of packages that would never compile, but at least we weren't head-of-line blocking anymore.
+This is where the "sed the template and commit it to git" approach comes in. There is a branch for each target (`trigger/$TARGET`), and each time the cronjob builds, it checks out each `trigger/$TARGET` branch, using `git worktree`, and checks what it last attempted to build. It then walks down the list of popular/requested crates, and makes a new commit to trigger a build of the next crate *after* the one that was last attempted. We still do a lot of useless builds of packages that would never compile, but at least we weren't head-of-line blocking anymore.
 
-Later, when we started pushing tags for each successful build, we were able to detect repeatedly-failing builds and automatically add the offending packages to the exclude list. This process is a little fragile, and it currently errs on the side of building known-broken packages occasionally, but it's better than nothing.
+Later, when we started pushing tags for each successful build (as part of the switch to github releases), we were able to detect repeatedly-failing builds and automatically add the offending packages to the exclude list. This process is a little fragile, and it currently errs on the side of building known-broken packages occasionally, but it's better than nothing.
 
 ## Free Tier Stuff
 
 The danger of relying on free-tier stuff is that your provider is not beholden to you in any way. They may take away your service at any time.
 
-The first service to fall was bintray. Around this time, I was mentoring a hack-and-learn, and the spotify-tui maintainer pointed out that they use github actions to make their releases, and they show up at predictable URLs. I had lots of time before `bintray` was due to be properly end-of-lifed, so I kicked off the builder to also upload to GitHub Releases, and then made a release to fetch from both places.
+The first service to fall was bintray. Around this time, I was mentoring a hack-and-learn, and the `spotify-tui` maintainer pointed out that they use github actions to make their releases, and that the release artifacts show up with predictable URLs. I had a bit of time before `bintray` was due to be properly end-of-lifed, so I kicked off the builder to also upload to GitHub Releases, and then made a release to make the client fetch from both places.
 
-When sematext end-of-lifed the free tier that my log pipeline was using, I was not hugely surprised - it was a terrible idea anyway. I added [a couple of typescript endpoints](https://github.com/alsuren/warehouse-clerk-tmp/tree/master/pages/api) to my vercel site so I was no longer relying on logs of 404 errors.
+The next free-tier thing to go a way was sematext. When sematext end-of-lifed the free tier that my log pipeline was using, I was not hugely surprised - it was a terrible idea anyway. I added [a couple of typescript endpoints](https://github.com/alsuren/warehouse-clerk-tmp/tree/master/pages/api) to my vercel site so I was no longer relying on logs of 404 errors. Boring. I like boring. Boring is good, especially for things that people are using, and that I need to actually maintain.
 
 ## External Contributors
 
-I have really enjoyed working with external contributors on cargo-quickinstall. The client is *super simple*, so it is reasonably approachable for beginners. After mentoring two rust-london hack-and-learn events, most of the low-hanging fruit has been plucked though.
+I have really enjoyed working with external contributors on cargo-quickinstall. The client is *super simple*, so it is reasonably approachable for beginners. After mentoring two rust-london hack-and-learn events, most of the low-hanging fruit has been picked, but there are approachable issues that show up from time to time. I've recently taken to tagging them with [good first issue](https://github.com/alsuren/cargo-quickinstall/labels/good%20first%20issue) if you want to have a go at one.
 
 ## Next Steps
 
-There are a few open issues on the board, that I'm happy to mentor people on. The thing that I'm most excited about is the idea of pre-building parts of dependency trees rather than just the end-result. I have been dubbing this effort `cargo quickbuild`. I have started progress on this over in the [cargo-quick repo](https://github.com/cargo-quick/cargo-quick). The idea is to have a tool to make from-scratch builds quicker, by providing a central repo of prebuilt crates, with the same trust model as `cargo-quickinstall`, but a slightly more complex architecture. Once quickbuild has come along a bit further.
+There are a few open issues [on the board](https://github.com/alsuren/cargo-quickinstall/projects/1), and I'm happy to mentor people on any of them. The issue that I'm especially interested in mentoring someone on is [the one for building static binaries for non-ubuntu-20.04 support, and shelling out to `cargo-binstall` for the more complex fallback behaviour](https://github.com/alsuren/cargo-quickinstall/issues/84).
 
-I will be sinking a bunch of time into this in August. If you would like to become the first sponsor this work, please go to [my GitHub Sponsors page](https://github.com/sponsors/alsuren).
+At the moment, there are no time-critical issues on the board (no security issues, and nothing that represents a regression for existing users in CI), so I am mostly leaving things open and offering mentoring on them. It is more valuable at the moment to get more people familiar with the codebase, and improve the bus-factor of the project.
+
+## cargo-quickbuild
+
+The other reason for me taking this approach with `cargo-quickinstall` is `cargo-quickbuild`. This is a project idea to take *parts* of dependency trees, rather than just the end-result. I have started progress on this over in a new [cargo-quick repo/org](https://github.com/cargo-quick/cargo-quick). The idea is to have a tool to make from-scratch builds quicker, by providing a central repo of prebuilt crates. It will have the same trust model as `cargo-quickinstall`, but a slightly more complex architecture. Once quickbuild has come along a bit further, I will port the quickinstall builder to use it, and then merge `cargo quickinstall` into the `cargo-quick` repo.
+
+It is reasonable to compare `cargo quickbuild` with things like `cargo-chef`, `sccache`, `bazel` and `nix`. These tools are all in a similar space, and I will definitely be stealing ideas from all of these projects. My aim with quickbuild is to meet users where they are. I'm hoping to produce noticeable speed-ups of from-scratch builds without requiring configuration changes in the user's computer or project. I also aim to build on shared infrastructure, available to all, so you don't need any involvement from finance or your ops team. I will be making use of free "open source tier" compute resources for building my packages, but they will be available for use by anyone to reduce their build times and CI costs, as long as they are happy to share their list of crates.io dependencies.
+
+I will be sinking a bunch of time into quickbuild in August. If you would like to become the first sponsor this work, please go to [my GitHub Sponsors page](https://github.com/sponsors/alsuren).
