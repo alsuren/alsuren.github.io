@@ -18,7 +18,19 @@ Halp!
 
 Back when I was working at Red Badger, we had some GitHub Actions pipelines that relied on some tools that were made out of Rust. We had our GitHub actions cache set up and everything, but every so often we would blast away the cache, and get a dog-slow build that had to rebuild all of the tools that we were using, before we could even start compiling our own project. I can't for the life of me remember what those tools were though.
 
-When that project wound down, I had some bench time, so I decided try doing something about it. I would build a service that would pre-build your rust tools for you.
+When that project wound down, I had some bench time, so I decided try doing something about it. I decided to build a service that would pre-build your rust tools for you. That way, whenever you would usually write something like:
+
+```bash
+cargo install ripgrep
+```
+
+you could write:
+
+```bash
+cargo quickinstall ripgrep
+```
+
+This would install pre-compiled versions of any binaries in the crate. If we don't have a pre-compiled version, it would fallback to cargo install automatically.
 
 The initial implementation of cargo-quickinstall was hacked together in less than a week. I also took the opportunity to make as many terrible architectural decisions as possible. Proper resume-driven development. Good times.
 
