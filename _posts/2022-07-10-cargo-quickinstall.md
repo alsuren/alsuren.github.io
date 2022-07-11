@@ -16,7 +16,7 @@ Halp!
 
 ## Backstory
 
-Back when I was working at Red Badger, we had some GitHub Actions pipelines that relied on some tools that were made out of Rust. We had our github actions cache set up and everything, but every so often we would blast away the cache, and get a dog-slow build that had to rebuild all of the tools that we were using, before we could even start compiling our own project. I can't for the life of me remember what those tools were though.
+Back when I was working at Red Badger, we had some GitHub Actions pipelines that relied on some tools that were made out of Rust. We had our GitHub actions cache set up and everything, but every so often we would blast away the cache, and get a dog-slow build that had to rebuild all of the tools that we were using, before we could even start compiling our own project. I can't for the life of me remember what those tools were though.
 
 When that project wound down, I had some bench time, so I decided try doing something about it. I would build a service that would pre-build your rust tools for you.
 
@@ -103,13 +103,13 @@ Not all crates build on all platforms. Initially, my builder didn't have any mem
 
 This is where the "sed the template and commit it to git" approach comes in. There is a branch for each target (`trigger/$TARGET`), and each time the cronjob builds, it checks out each `trigger/$TARGET` branch, using `git worktree`, and checks what it last attempted to build. It then walks down the list of popular/requested crates, and makes a new commit to trigger a build of the next crate *after* the one that was last attempted. We still do a lot of useless builds of packages that would never compile, but at least we weren't head-of-line blocking anymore.
 
-Later, when we started pushing tags for each successful build (as part of the switch to github releases), we were able to detect repeatedly-failing builds and automatically add the offending packages to the exclude list. This process is a little fragile, and it currently errs on the side of building known-broken packages occasionally, but it's better than nothing.
+Later, when we started pushing tags for each successful build (as part of the switch to GitHub releases), we were able to detect repeatedly-failing builds and automatically add the offending packages to the exclude list. This process is a little fragile, and it currently errs on the side of building known-broken packages occasionally, but it's better than nothing.
 
 ## Free Tier Stuff
 
 The danger of relying on free-tier stuff is that your provider is not beholden to you in any way. They may take away your service at any time.
 
-The first service to fall was bintray. Around this time, I was mentoring a hack-and-learn, and the `spotify-tui` maintainer pointed out that they use github actions to make their releases, and that the release artifacts show up with predictable URLs. I had a bit of time before `bintray` was due to be properly end-of-lifed, so I kicked off the builder to also upload to GitHub Releases, and then made a release to make the client fetch from both places.
+The first service to fall was bintray. Around this time, I was mentoring a hack-and-learn, and the `spotify-tui` maintainer pointed out that they use GitHub actions to make their releases, and that the release artifacts show up with predictable URLs. I had a bit of time before `bintray` was due to be properly end-of-lifed, so I kicked off the builder to also upload to GitHub Releases, and then made a release to make the client fetch from both places.
 
 The next free-tier thing to go a way was sematext. When sematext end-of-lifed the free tier that my log pipeline was using, I was not hugely surprised - it was a terrible idea anyway. I added [a couple of typescript endpoints](https://github.com/alsuren/warehouse-clerk-tmp/tree/master/pages/api) to my vercel site so I was no longer relying on logs of 404 errors. Boring. I like boring. Boring is good, especially for things that people are using, and that I need to actually maintain.
 
