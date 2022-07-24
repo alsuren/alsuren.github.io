@@ -1,10 +1,6 @@
 ---
-title: DRAFT - cargo-quickinstall
+title: The cargo-quickinstall journey - how I made a thing for installing rust programs quickly
 ---
-
-This is a public draft of my blog post about `cargo-quickinstall`. I have received some feedback from workmates that I still need to integrate. You can track my progress [in my GitHub Pages repo](https://github.com/alsuren/alsuren.github.io/commits/master/_posts/2022-07-10-cargo-quickinstall.md) or on the [cargo-quickinstall issue](https://github.com/alsuren/cargo-quickinstall/issues/24). Once I have integrated that feedback, I will remove this notice and share it on twitter/reddit/etc.
-
-<!-- TODO: better title - talk about the journey and the achievement? -->
 
 ![Full Architecture diagram for cargo-quickinstall](/images/quickinstall/quickinstall-blog-post.excalidraw.png)
 
