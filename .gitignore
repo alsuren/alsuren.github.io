@@ -25,3 +25,5 @@ build/Release
 node_modules
 *.qcow2
 *.iso
+
+/_site/

@@ -1,0 +1,7 @@
+.PHONY: serve
+serve:
+	# FIXME: work out where bundle installs its packages so that we can cache it somehow.
+	docker run -p 4000:4000 \
+	    -v $(PWD):/site \
+		-w /site ruby:latest \
+		bash -c 'bundle install && bundle exec jekyll serve --host 0.0.0.0'
