@@ -14,14 +14,11 @@ I made a thing that people *seem* to be using.
 
 Halp!
 
-## Pre-built binaies of rust-based tools
-<!-- 
-link to red-badger
+## Pre-built binaies of Rust programs
 
- -->
-Back when I was working at Red Badger, we had some GitHub Actions pipelines that relied on some tools that were written in Rust. We had our GitHub actions cache set up and everything, but every so often we would blast away the cache, and get a dog-slow build that had to rebuild all of the tools that we were using, before we could even start compiling our own project. I can't for the life of me remember what those tools were though.
+Back when I was working at [Red Badger](https://red-badger.com), we had some [GitHub Actions](https://github.com/features/actions) pipelines that relied on some tools that were written in [Rust](https://www.rust-lang.org). We had our [GitHub actions cache](https://github.com/actions/cache) set up correctly and everything, but every so often we would blast away the cache, by some innocent-looking operation, like bumping a dependency. This would result in a dog-slow build, as it rebuilt all of the tools that we were using, before even starting to compiling our own project.
 
-When that project wound down, I had some bench time, so I decided try doing something about it. I decided to build a service that would pre-build your rust tools for you. That way, whenever you would usually write something like:
+When that project wound down, I had some bench time between projects, so I decided try doing something about it. I decided to build a service that would pre-build your Rust tools for you. That way, whenever you would usually write something like:
 
 ```bash
 cargo install ripgrep
@@ -33,11 +30,11 @@ you could write:
 cargo quickinstall ripgrep
 ```
 
-This would install pre-compiled versions of any binaries in the crate. If we don't have a pre-compiled version, it would fallback to cargo install automatically.
+This would install pre-compiled versions of any binaries in the crate. If we did't have a pre-compiled version, it would fallback to cargo install automatically.
 
 The initial implementation of cargo-quickinstall was hacked together in less than a week. I also took the opportunity to make as many terrible architectural decisions as possible. Proper resume-driven development. Good times.
 
-## Initial Implementation
+## Do the thing
 
 <!-- "build the right thing, build the thing right" - is that how they say it?
 ? why is it building the right thing - make it clear that it is a joke?
@@ -45,26 +42,27 @@ The initial implementation of cargo-quickinstall was hacked together in less tha
 capitalisation of Rust (always the same in the same document) and Wrangler, postgres, heroku, Vercel, Sematext, elasticsearch, api , Rust London, ... 
  -->
 
-Following the Red Badger philosophy of "build the right thing, build the thing right", I decided to build the mechanism for getting the user's package-build requests first. That way, my service would always be "build the right thing".
+<!-- The initial plan looked like [this](https://github.com/alsuren/cargo-quickinstall/commit/be1f8e5d5df6f6f891c92307321f3053b972c2e2) if you're interested. -->
+
+At Red Badger, there is a saying ["Do the right thing. Do the thing right"](https://red-badger.com/what-we-do/). "Do the right thing" is about finding ways to make sure you are actually making something that people find useful. "Do the thing right" is about getting products into the hands of users in a sustainable way, so that we can gather feedback and and iterate quickly.
+
+I decided to start by building the feedback bit first. If my system knows which packages most people want, it can "do the right thing" without my intervention, by making sure that those packages get built. Having download counts for my packages would also let me know valuable my thing is, and whether I should keep doing it.
 
 ### Stats Server
 
-<!-- narration to self. Delete. Present as "I did xyz" without observations
+<!-- Looking through `git log --reverse --stat` to write this post has been really interesting. -->
 
-qualify that wrangler is cloudflare's devtool
- -->
-Looking through `git log --reverse --stat` to write this post has been really interesting. It seems that I started out by creating a cloudflare-workers project in rust, with wrangler, using their KV store. I think it had only just come out at the time, and I quickly realised that taking this approach would be an uphill battle. I don't think there were even official rust bindings to their KV store at the time. I had also read somewhere that their KV store was *heavily* read-optimised (as-in "please think of this as a configuration store, and don't try to make more than 1 write per second", or something). I had grand dreams that I might one-day receive more than 1 request per second, so I decided to switch tack.
+I knew that the requirements for the stats server were pretty simple, and also that the rest of the system would function just fine without this piece of the puzzle. I optimised for ticking things off of my tech bucket list, rather than building a rock-solid server. 
 
-The boring choice would be to spin up a heroku app and write to postgres. That was *too* boring though. What other hilarious resume-expanding technology stack could I use?
+I started out by creating a [Cloudflare Workers](https://workers.cloudflare.com) project in Rust, using their [wrangler](https://developers.cloudflare.com/workers/wrangler/get-started/) devtool, and their [KV store](https://developers.cloudflare.com/workers/runtime-apis/kv/). Rust support for cloudflare workers had only just come out at the time, and I quickly realised that taking this approach would be an uphill battle. There weren't even official rust bindings to their KV store at the time. I had also read somewhere that their KV store was *heavily* read-optimised (as-in "please think of this as a configuration store, and don't try to make more than 1 write per second", or something). I had grand dreams that I might one-day receive more than 1 request per second, so I decided to switch tack.
 
-One of the most fundamental requirements for quickbuild has always been that it shouldn't cost me anything to maintain, so stringing together free-tier teaser offerings was the order of the day.
+The boring choice would be to spin up a heroku app and write to postgres. That was *too* boring though. What other fun resume-expanding technology stack could I use?
 
-I remembered meeting with an ad-tech company at a careers fair a few years earlier, and they had a fun architecture. They didn't have *any* of their own servers in the hot loop of serving customers. They would serve *everything* from CDN, including tracking pixels, and then have a cronjob that parsed the CDN logs and used that to generate invoices to their customers. Clever, right? Web Scale!
+One of the most fundamental requirements for cargo-quickinstall has always been that it shouldn't cost me anything to maintain, so stringing together free-tier teaser offerings was the order of the day.
 
-Following this piece of slightly inappropriate architectural inspiration, I span up an empty Vercel project, and started spamming it with requests to random non-existent pages. I then hooked up the log drain to sematext. My client would make a request to a non-existent page, and immediately receive a 404 response. I would then periodically query the sematext elasticsearch API. No cold-start lambda delays to worry about. Brilliant.
-<!-- 
-TODO: change this into a footnote - see https://github.com/alecmocatta/alecmocatta.github.io/blob/master/_posts/2018-09-28-culture-biased-iq-test-of-bureaucracy.markdown for example
-(In practice, when I made the client, I made it do this request in a background thread anyway, so it doesn't *really* matter how long my cold-start time is). -->
+I remembered meeting with an ad-tech company at a careers fair a few years earlier, and they had a fun architecture. They didn't have *any* of their own servers in the hot loop of serving customers. They would serve *everything* from CDN, including tracking pixels, and then have a cronjob that parsed the CDN logs and used that to generate invoices to their customers. Clever, right? Entirely too web-scale for my own good.
+
+Following this piece of slightly inappropriate architectural inspiration, I span up an empty [Vercel](https://vercel.com) project, and started spamming it with requests to random non-existent pages. I then hooked up the [log drain to sematext](https://vercel.com/integrations/sematext-logs). My client would make a request to a non-existent page, and immediately receive a 404 response. I would then periodically query the sematext elasticsearch API. No cold-start lambda delays to worry about [^1]. Brilliant.
 
 ### Artifact Storage
 
@@ -208,3 +206,6 @@ https://hadean.com/blog/managing-rust-dependencies-with-nix-part-ii/ so that you
 It is reasonable to compare `cargo quickbuild` with things like `cargo-chef`, `sccache`, `bazel` and `nix`. These tools are all in a similar space, and I will definitely be stealing ideas from all of these projects. My aim with quickbuild is to meet users where they are. I'm hoping to produce noticeable speed-ups of from-scratch builds without requiring configuration changes in the user's computer or project. I also aim to build on shared infrastructure, available to all, so you don't need any involvement from finance or your ops team. I will be making use of free "open source tier" compute resources for building my packages, but they will be available for use by anyone to reduce their build times and CI costs, as long as they are happy to share their list of crates.io dependencies.
 
 I will be sinking a bunch of time into quickbuild in August. If you would like to become the first sponsor this work, please go to [my GitHub Sponsors page](https://github.com/sponsors/alsuren).
+
+[^1]:
+    In practice, when I made the client, I made it do this request in a background thread anyway, so it doesn't *really* matter how long my cold-start time is).
