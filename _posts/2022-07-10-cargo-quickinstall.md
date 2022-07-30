@@ -8,7 +8,7 @@ I made a thing.
 
 I made a thing that I threw together in a week.
 
-I made a thing that is horrifically complicated, and held together with hot snot and string.
+I made a thing that is horrifically complicated, and held together with hot glue and string.
 
 I made a thing that people *seem* to be using.
 
@@ -43,7 +43,9 @@ capitalisation of Rust (always the same in the same document) and Wrangler, post
  -->
 
 
-At Red Badger, there is a saying ["Do the right thing. Do the thing right"](https://red-badger.com/what-we-do/). "Do the right thing" is about finding ways to make sure you are actually making something that people find useful. "Do the thing right" is about getting products into the hands of users in a sustainable way, so that we can gather feedback and and iterate quickly.
+At Red Badger, there is a saying ["Do the right thing. Do the thing right"](https://red-badger.com/what-we-do/).
+
+"Do the right thing" is about finding ways to make sure you are actually making something that people find useful. "Do the thing right" is about getting products into the hands of users in a sustainable way, so that we can gather feedback and and iterate quickly.
 
 I decided to start by building the feedback bit first. If my system knows which packages most people want, it can "do the right thing" without my intervention, by making sure that those packages get built. Having download counts for my packages would also let me know valuable my thing is, and whether I should keep doing it.
 
@@ -99,13 +101,13 @@ It's worth digging into the `cargo-quickinstall` trust model at this point.
 
 The trust model is currently:
 
-1. you trust the author of the crate that you asked for, and its dependencies.
-2. you trust me to be acting in good faith, and to have configured GitHub actions and GitHub releases correctly, and my sandboxing to be adequate.
-3. you trust GitHub not to replace everyone's released binaries with cryptomalware.
+1. You trust the author of the crate that you asked for, and its dependencies.
+2. You trust me to be acting in good faith, and to have configured GitHub actions and GitHub releases correctly, and my sandboxing to be adequate.
+3. You trust GitHub not to replace everyone's released binaries with cryptomalware.
 
-This means (assuming that you trust `cargo-quickinstall`, and that our sandboxing is solid) that by running `cargo quickinstall $CRATE`, you're not forced to trust anyone that you're not already trusting by running `cargo install $CRATE`.
+This means that (assuming that you trust `cargo-quickinstall`, and that our sandboxing is solid) by running `cargo quickinstall $CRATE`, you're not forced to trust anyone that you're not already trusting by running `cargo install $CRATE`.
 
-`cargo-quickinstall` does not trust the author of **any** package on crates.io. As soon as we have run the crate's build.rs or any proc macros, we must treat the build box as compromised. There is some gymnastics involved in achieving this, so bear with me.
+`cargo-quickinstall` does not trust the author of **any** package on crates.io. As soon as we have run the crate's `build.rs` or any proc macros, we must treat the build box as compromised. There is some gymnastics involved in achieving this, so bear with me.
 
 #### GitHub Actions Gymnastics
 
@@ -113,9 +115,9 @@ The [cronjob](https://github.com/alsuren/cargo-quickinstall/blob/main/.github/wo
 
 The workflow that does the building is given `$CRATE` `$VERSION` `$BUILD_OS` and `$TARGET_ARCH`. We currently supply these variables by running `sed` over a [template](https://github.com/alsuren/cargo-quickinstall/blob/main/.github/workflows/build-package.yml.template), and committing the result to git. If I was writing it again today from scratch, I might revisit this decision, but this works well enough for now.
 
-We spin up a runner with `$BUILD_OS` on it, and do the build. This essentially runs `cargo install $crate` and then tars up the resulting binaries and uses `actions/upload-artifact` to upload it with a known filename, so that it is available for other jobs in the same build pipeline. 
+We spin up a runner with `$BUILD_OS` and [`permissions: {}`](https://github.com/alsuren/cargo-quickinstall/pull/86) on it, and do the build. This essentially runs `cargo install $crate` and then tars up the resulting binaries and uses `actions/upload-artifact` to upload it with a known filename, so that it is available for other jobs in the same build pipeline. 
 
-**Security notice:** I'm assuming that all runners are able to use `actions/upload-artifact` without any extra creds. ~I've not really dug into it that much. If it turns out that the runner is being given some kind of god token, and that token is available to `$CRATE`'s untrusted `build.rs` for doing anything other than uploading build artifacts then we're in big trouble. If you believe this to be the case, please email me so that I can stop building new packages and do a proper audit/redesign.~
+**Security notice:** I'm assuming that all runners are able to use `actions/upload-artifact` without any extra creds. ~I've not really dug into it that much.~ If it turns out that the runner is being given some kind of god token, and that token is available to `$CRATE`'s untrusted `build.rs` for doing anything other than uploading build artifacts then we're in big trouble. If you believe this to be the case, please email me so that I can stop building new packages and do a proper audit/redesign.
 
 
 Once the builder is finished, we throw it in the bin, and spin up a new `ubuntu-20.04` runner. This downloads the tarball from `actions/upload-artifact`[^2] and uploads it to GitHub Releases (previously bintray).
@@ -133,7 +135,7 @@ There are probably massive holes in this logic. Even if it's all sound, `cargo-q
 >
 > He also advised me not to trust any isolation boundary that's less strong than full-on VM isolation.
 >
-> This stalled me for a while. I came up with [an excessively complicated scheme](https://github.com/alsuren/cargo-quickinstall/issues/49), and we agreed that it would probably work, but was very unsatisfying. When I sat down to implement it this weekend, I stumbled on [a mechanism](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idpermissions) to neuter the GITHUB_TOKEN that is sent to the runner. The fix ended up being [a single line](https://github.com/alsuren/cargo-quickinstall/pull/86/files).
+> This stalled me for a while. I came up with [an excessively complicated scheme](https://github.com/alsuren/cargo-quickinstall/issues/49), and we agreed that it would probably work, but was very unsatisfying. When I sat down to implement it on the weekend, I stumbled on [a mechanism](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idpermissions) to neuter the GITHUB_TOKEN that is sent to the runner. The fix ended up being [a single line](https://github.com/alsuren/cargo-quickinstall/pull/86/files).
 >
 > I have not yet found a way for a malicious crate to extract the secret and use it to do anything. I also don't have any reason to believe that anyone else has done so. I will therefore be keeping all previously built packages published in the repo as-is. If you believe that this is unwise, and would like to help me implement a better security process, please comment on [this issue](https://github.com/alsuren/cargo-quickinstall/issues/49) and I will set up a call to pair on it.
 
@@ -191,18 +193,13 @@ https://hadean.com/blog/managing-rust-dependencies-with-nix-part-ii/ so that you
 - [ ] find the reddit comment where someone suggests that I should make quickbuild
 
  -->
-This raises the question: "Why not use [`sccache`](https://github.com/mozilla/sccache), [`nix`](https://nixos.org), [`bazel`](https://bazel.build) or [`cargo-chef`](https://github.com/lukemathwalker/cargo-chef)?"
+This raises the question: 
+> Why not use [`sccache`](https://github.com/mozilla/sccache), [`nix`](https://nixos.org), [`bazel`](https://bazel.build) or [`cargo-chef`](https://github.com/lukemathwalker/cargo-chef)?
 
-These tools are all in a similar space, and I will definitely be stealing ideas from all of these projects.
+To avoid bloating the end of this post, I have [split this out into its own post](/2022/07/30/why-cargo-quickbuild). The conclusion of which is:
 
-* `sccache` is intended to be a thin wrapper around `rustc`, and is easy to integrate into your workflow. In order to calculate its cache keys, it reads the rust source code. It has the ability to use a shared cache on s3, but it is all a single cache, so you need to trust everyone who has write access to it, and all of the crates that they ever compile. There is also no mechanism (that I know of) for identifying cache misses and farming them off to a background worker, because it is assumes that the user will also have write access to the cache, and will upload the result when they're done. This is okay for teams in a large company like Mozilla, but less good if you are in a team of one, hacking on projects in your spare time.
-
-* `nix` is promising, and its [cache](https://nixos.wiki/wiki/Binary_Cache) architecture is very powerful. It is not very portable though (no native windows support, and getting it set up on macos has traditionally been very painful). Integrating it into a crate with a large dependency tree also requires a lot of boilerplate. 
-
-* `bazel` is more portable, but also requires a lot of boilerplate. It is made by Google, and the trust model for its shared cache appears to be similar to that of sccache.
-
-* `cargo-chef` is a docker-specific tool. If you need to build a docker image today, and you're not able to just pre-build your binary outside of docker and COPY it in, I recommend `cargo-chef` (my first Rust London Hack and Learn was spent working on `cargo-chef`, so I might be biassed). Its key innovation is turn your dependency tree into a separate layer that is independent of the rest of your source code. This means that you can skip rebuilding dependencies if you are only making changes to your source code. The downside of this approach is that if you bump any dependencies then the whole layer gets thrown away and built from scratch (this similar to the behaviour that you will find with [GitHub Actions' recommended cache configuration](https://github.com/actions/cache/blob/main/examples.md#user-content-rust---cargo)). Sharing individual docker layers between build servers and developers is also a pain, so your developers will probably not feel the benefit of the massive CI bill that you pay every month.
-
-My aim with quickbuild is to meet users where they are. I'm hoping to produce noticeable speed-ups of from-scratch builds without requiring configuration changes in the user's computer or project. I also aim to build on shared infrastructure, available to all, so you don't need any involvement from finance or your ops team. I will be making use of free "open source tier" compute resources for building my packages, but they will be available for use by *anyone* to reduce their build times and CI costs, as long as they are happy to share their rust flags, and the list of dependencies from their Cargo.toml.
+> Rust's tooling excellence owes a lot to the unifying influence of `cargo` for build + docs + testing. Its major shortcoming is long build times. My aim with quickbuild is to meet users where they are, because `cargo` is an excellent place to be. I'm hoping to produce meaningful speed-ups of from-scratch builds, without requiring configuration changes for the user's computer/project.
+>
+> I also aim to build on shared infrastructure, available to all, so you don't need any involvement from finance or your ops team. I will be making use of free "open source tier" compute resources for building my packages, but they will be available for use by *anyone* to reduce their build times and CI costs, as long as they are happy to share their rust flags, and the list of dependencies from their Cargo.toml.
 
 I am coming to the end of my time at [tably](https://tably.com) and I plan to spend August house hunting and working on quickbuild, before looking for my next job. If you would like to become the first sponsor this work, please go to my [GitHub Sponsors page](https://github.com/sponsors/alsuren).
