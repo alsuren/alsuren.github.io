@@ -2,6 +2,8 @@
 title: Why cargo-quickbuild?
 ---
 
+In [my previous post](/2022/07/10/cargo-quickinstall), I reviewed the history of `cargo-quickinstall` and introduced my `cargo-quickbuild` idea. When reviewing it with workmates, we thought it might be useful compare it against the other solutions that already exist in this space. I will attempt to do so in this blog post.
+
 > Why not use [`sccache`](https://github.com/mozilla/sccache), [`nix`](https://nixos.org), [`bazel`](https://bazel.build) or [`cargo-chef`](https://github.com/lukemathwalker/cargo-chef)?
 
 These tools are all in a similar space, and I will definitely be stealing ideas from all of these projects.
