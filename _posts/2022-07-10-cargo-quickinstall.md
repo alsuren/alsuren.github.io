@@ -202,4 +202,4 @@ To avoid bloating the end of this post, I have [split this out into its own post
 >
 > I also aim to build on shared infrastructure, available to all, so you don't need any involvement from finance or your ops team. I will be making use of free "open source tier" compute resources for building my packages, but they will be available for use by *anyone* to reduce their build times and CI costs, as long as they are happy to share their rust flags, and the list of dependencies from their Cargo.toml.
 
-I am coming to the end of my time at [tably](https://tably.com) and I plan to spend August house hunting and working on quickbuild, before looking for my next job. If you would like to become the first sponsor this work, please go to my [GitHub Sponsors page](https://github.com/sponsors/alsuren).
+I am coming to the end of my time at [Tably](https://tably.com) and I plan to spend August house hunting and working on quickbuild, before looking for my next job. If you would like to become the first sponsor this work, please go to my [GitHub Sponsors page](https://github.com/sponsors/alsuren).
