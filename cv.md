@@ -4,7 +4,7 @@ title: CV - David Laban
 
 ## Tably
 
-Senior Software Engineer - 10/2021 - 07/2022
+### Senior Software Engineer - 10/2021 - 07/2022
 
 Tably is an early stage startup. The core idea is very similar to Google Sheets, but with key insights that allow it to be taken in a different direction.
 
@@ -16,9 +16,9 @@ Tably is an early stage startup. The core idea is very similar to Google Sheets,
 
 ## Red Badger
 
-Senior Software Engineer - 10/2019 - 10/2021
+### Senior Software Engineer - 10/2019 - 10/2021
 
-Red Badger is a software consultancy.
+Red Badger is a software consultancy, deploying product led teams into blue-chip companies.
 
 Things I did at Red Badger:
 
@@ -38,7 +38,7 @@ Things I did at Red Badger:
 
 ## Conversocial
 
-Senior Software Engineer - 12/2015 - 07/2019
+### Senior Software Engineer - 12/2015 - 07/2019
 
 Conversocial is a SaaS company, providing call-centre software for dealing with queries on social media.
 
@@ -54,7 +54,9 @@ Things I did at Conversocial
 
 ## Truphone
 
-Software Engineer - 09/2012 - 03/2014
+### Software Engineer - 09/2012 - 03/2014
+
+Truphone is a "small" mobile network. I worked in their labs team.
 
 * Deployed and maintained the SIP and XMPP servers that support the Truphone app.
 * Shared knowledge with others on XMPP and git.
@@ -62,9 +64,9 @@ Software Engineer - 09/2012 - 03/2014
 
 ## Collabora
 
-Software Engineer - 09/2009 - 09/2011
+### Software Engineer - 09/2009 - 09/2011
 
-Collabora is an Open Source Software Consultancy
+Collabora is an Open Source Software Consultancy which maintains many core pieces of technology for Desktop Linux.
 
 * Developed and maintained APIs and protocol implementations for the Telepathy VoIP/IM framework.
 * Developed XMPP<->SIP bridge, and debugged GStreamer<->SIP Phone RTP incompatibilities using WireShark
@@ -73,7 +75,7 @@ Collabora is an Open Source Software Consultancy
 ## Open Source Software Maintainer
 
 
-2009 - Present
+### 2009 - Present
 
 Highlights:
 
