@@ -2,9 +2,11 @@
 title: CV - David Laban
 ---
 
-## Tably
+## Experience
 
-### Senior Software Engineer - 10/2021 - 07/2022
+### Tably
+
+#### Senior Software Engineer - 10/2021 - 07/2022
 
 Tably is an early stage startup. The core idea is very similar to Google Sheets, but with key insights that allow it to be taken in a different direction.
 
@@ -14,9 +16,9 @@ Tably is an early stage startup. The core idea is very similar to Google Sheets,
 * Worked with CEO on designing direction-setting workshops.
 * Mentored junior engineers on sometimes orthogonal projects, and with senior engineers on mentoring junior engineers.
 
-## Red Badger
+### Red Badger
 
-### Senior Software Engineer - 10/2019 - 10/2021
+#### Senior Software Engineer - 10/2019 - 10/2021
 
 Red Badger is a software consultancy, deploying product led teams into blue-chip companies.
 
@@ -36,9 +38,9 @@ Things I did at Red Badger:
   * Facilitated a career change from Test Lead to Software Engineer
   * Managed skills progression and advocated for promotions (using a "ladder" based framework)
 
-## Conversocial
+### Conversocial
 
-### Senior Software Engineer - 12/2015 - 07/2019
+#### Senior Software Engineer - 12/2015 - 07/2019
 
 Conversocial is a SaaS company, providing call-centre software for dealing with queries on social media.
 
@@ -52,9 +54,9 @@ Things I did at Conversocial
 * Rewrote core app frontend from knockout to React + Redux + CSSModules.
 * Migrated our local development environment from Vagrant to Docker For Mac
 
-## Truphone
+### Truphone
 
-### Software Engineer - 09/2012 - 03/2014
+#### Software Engineer - 09/2012 - 03/2014
 
 Truphone is a "small" mobile network. I worked in their labs team.
 
@@ -62,9 +64,9 @@ Truphone is a "small" mobile network. I worked in their labs team.
 * Shared knowledge with others on XMPP and git.
 * Applied DevOps reliability/scalability and deployability principles (puppet, monitoring and process supervision).
 
-## Collabora
+### Collabora
 
-### Software Engineer - 09/2009 - 09/2011
+#### Software Engineer - 09/2009 - 09/2011
 
 Collabora is an Open Source Software Consultancy which maintains many core pieces of technology for Desktop Linux.
 
@@ -72,10 +74,10 @@ Collabora is an Open Source Software Consultancy which maintains many core piece
 * Developed XMPP<->SIP bridge, and debugged GStreamer<->SIP Phone RTP incompatibilities using WireShark
 * Wrote asyncronous networking/D-Bus code in C, for resource-constrained Linux systems (Nokia N900)
 
-## Open Source Software Maintainer
+### Open Source Software Maintainer
 
 
-### 2009 - Present
+#### 2009 - Present
 
 Highlights:
 
@@ -93,3 +95,11 @@ Highlights:
 * hoverkite
     * Embedded rust project, to fly a kite using a gamepad.
     * Repo: https://github.com/hoverkite/hoverkite
+
+
+## Education
+
+#### Master of Engineering, Information Engineering - 2005 - 2009
+
+* General foundation in all engineering disciplines.
+* Specialised in signal processing, with a masters project in music visualisation.
