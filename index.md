@@ -20,3 +20,8 @@ I've been using [remark](https://github.com/gnab/remark) [excalidraw](https://ex
 
 - Some internal presentations.
 - [My home monitoring project](https://alsuren.github.io/mijia-homie/docs/presentation/) for Binary Solo, and updated for Rust London.
+
+
+# CV
+
+My CV can be found [here](./cv). PDF versions available on request.
