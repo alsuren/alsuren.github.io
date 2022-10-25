@@ -29,10 +29,13 @@ Things I did at Red Badger:
   * Implemented multi-tenant support, and enabled compliance testing ready for launch.
   * Handed over key pieces of technology and ways of working to incoming supplier.
 * Wrote an unsuccessful communication and file sharing platform for NHS England:
+  * Mentored junior team members on Rust (sqlx + async-graphql) and Kubernetes.
   * Learned a lot about complexity, stakeholder management, and unrealistic projects.
 * Wrote a successful integration for NHS Wales' covid response.
   * Learned a lot about scope reduction, and executing on short timescales with external dependencies.
-* Wrote a proof of concept wasmCloud + NATS + Kubernetes installation for a client, and explored its potential:
+* Wrote [wasmCloud](https://wasmcloud.dev/) demo for [Cloud Native Compute Foundation conference](https://www.youtube.com/watch?v=krbx09oJ2Q8):
+  * Distributed NATS/NGS lattice for automatic failover + Kubernetes for scaling.
+  * Multi-Cloud cluster setup across AWS and GCP, using [Pulumi](https://www.pulumi.com/)
   * Learned a lot about Developer Experience design, through the lens of Employee Experience design.
 * Line Managed two other engineers:
   * Facilitated a career change from Test Lead to Software Engineer
