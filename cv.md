@@ -19,6 +19,7 @@ Highlights:
     * Feedback loop (via stats server) to make sure we build the packages that people are asking for.
     * Package repository is also used by popular `cargo-binstall` project.
     * Many `good first issue` tickets addressed, and a few repeat contributors.
+    * I also have a Work-In-Progress project [cargo-quickbuild](https://github.com/cargo-quick/cargo-quick) to extend this idea to your entire dependency tree (see above blog post for rationale).
 * mijia-homie
     * Set of daemons for enabling Temperature Sensor Data -> Bluetooth -> Raspberry Pi -> MQTT (homie) -> InfluxDB -> Grafana
     * Repo: https://github.com/alsuren/mijia-homie
