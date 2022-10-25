@@ -72,7 +72,7 @@ Collabora is an Open Source Software Consultancy which maintains many core piece
 
 * Developed and maintained APIs and protocol implementations for the Telepathy VoIP/IM framework.
 * Developed XMPP<->SIP bridge, and debugged GStreamer<->SIP Phone RTP incompatibilities using WireShark
-* Wrote asyncronous networking/D-Bus code in C, for resource-constrained Linux systems (Nokia N900)
+* Wrote asynchronous networking/D-Bus code in C, for resource-constrained Linux systems (Nokia N900)
 
 ### Open Source Software Maintainer
 
