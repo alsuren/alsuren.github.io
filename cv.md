@@ -4,6 +4,29 @@ title: CV - David Laban
 
 ## Experience
 
+### Open Source Software Maintainer
+
+
+#### 2009 - Present
+
+Highlights:
+
+* cargo-quickinstall
+    * Installer for pre-compiled binary packages.
+    * Repo: https://github.com/alsuren/cargo-quickinstall
+    * Blog post: https://alsuren.github.io/2022/07/10/cargo-quickinstall.html
+    * Automated package builder (using Github Actions Cronjobs to build untrusted code).
+    * Feedback loop (via stats server) to make sure we build the packages that people are asking for.
+    * Package repository is also used by popular `cargo-binstall` project.
+    * Many `good first issue` tickets addressed, and a few repeat contributors.
+* mijia-homie
+    * Set of daemons for enabling Temperature Sensor Data -> Bluetooth -> Raspberry Pi -> MQTT (homie) -> InfluxDB -> Grafana
+    * Repo: https://github.com/alsuren/mijia-homie
+    * Blog post/presentation: https://alsuren.github.io/2022/02/19/mijia-homie-presentation.html
+* hoverkite
+    * Embedded rust project, to fly a kite using a gamepad.
+    * Repo: https://github.com/hoverkite/hoverkite
+
 ### Tably
 
 #### Senior Software Engineer - 10/2021 - 07/2022
@@ -76,29 +99,6 @@ Collabora is an Open Source Software Consultancy which maintains many core piece
 * Developed and maintained APIs and protocol implementations for the Telepathy VoIP/IM framework.
 * Developed XMPP<->SIP bridge, and debugged GStreamer<->SIP Phone RTP incompatibilities using WireShark
 * Wrote asynchronous networking/D-Bus code in C, for resource-constrained Linux systems (Nokia N900)
-
-### Open Source Software Maintainer
-
-
-#### 2009 - Present
-
-Highlights:
-
-* cargo-quickinstall
-    * Installer for pre-compiled binary packages.
-    * Repo: https://github.com/alsuren/cargo-quickinstall
-    * Blog post: https://alsuren.github.io/2022/07/10/cargo-quickinstall.html
-    * Automated package builder (using Github Actions Cronjobs to build untrusted code).
-    * Feedback loop (via stats server) to make sure we build the packages that people are asking for.
-    * Package repository is also used by popular `cargo-binstall` project.
-    * Many `good first issue` tickets addressed, and a few repeat contributors.
-* mijia-homie
-    * Set of daemons for enabling Temperature Sensor Data -> Bluetooth -> Raspberry Pi -> MQTT (homie) -> InfluxDB -> Grafana
-    * Repo: https://github.com/alsuren/mijia-homie
-    * Blog post/presentation: https://alsuren.github.io/2022/02/19/mijia-homie-presentation.html
-* hoverkite
-    * Embedded rust project, to fly a kite using a gamepad.
-    * Repo: https://github.com/hoverkite/hoverkite
 
 
 ## Education
