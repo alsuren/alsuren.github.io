@@ -21,6 +21,10 @@ I've been using [remark](https://github.com/gnab/remark) [excalidraw](https://ex
 - Some internal presentations.
 - [My home monitoring project](https://alsuren.github.io/mijia-homie/docs/presentation/) for Binary Solo, and updated for Rust London.
 
+# Socials
+
+* Mastadon: <a rel="me" href="https://mastodon.me.uk/@alsuren">@alsuren@mastodon.me.uk</a>
+* Twitter: <a rel="me" href="https://twitter.com/alsuren">@alsuren</a>
 
 # CV
 
