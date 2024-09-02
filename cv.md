@@ -13,8 +13,8 @@ Highlights:
 
 * cargo-quickinstall
     * Installer for pre-compiled binary packages.
-    * Repo: https://github.com/alsuren/cargo-quickinstall
-    * Blog post: https://alsuren.github.io/2022/07/10/cargo-quickinstall.html
+    * Repo: [alsuren/cargo-quickinstall](https://github.com/alsuren/cargo-quickinstall)
+    * Blog post: [2022/07/10/cargo-quickinstall](https://alsuren.github.io/2022/07/10/cargo-quickinstall.html)
     * Automated package builder (using Github Actions Cronjobs to build untrusted code).
     * Feedback loop (via stats server) to make sure we build the packages that people are asking for.
     * Package repository is also used by popular `cargo-binstall` project.
@@ -22,11 +22,33 @@ Highlights:
     * I also have a Work-In-Progress project [cargo-quickbuild](https://github.com/cargo-quick/cargo-quick) to extend this idea to your entire dependency tree (see above blog post for rationale).
 * mijia-homie
     * Set of daemons for enabling Temperature Sensor Data -> Bluetooth -> Raspberry Pi -> MQTT (homie) -> InfluxDB -> Grafana
-    * Repo: https://github.com/alsuren/mijia-homie
-    * Blog post/presentation: https://alsuren.github.io/2022/02/19/mijia-homie-presentation.html
+    * Repo: [alsuren/mijia-homie](https://github.com/alsuren/mijia-homie)
+    * Blog post/presentation: [2022/02/19/mijia-homie-presentation](https://alsuren.github.io/2022/02/19/mijia-homie-presentation.html)
 * hoverkite
     * Embedded rust project, to fly a kite using a gamepad.
-    * Repo: https://github.com/hoverkite/hoverkite
+    * Repo: [hoverkite/hoverkite](https://github.com/hoverkite/hoverkite)
+* SixDoFone
+    * Tool to use a mobile phone to control position and rotation (6DoF) of a robot arm.
+    * Uses WebXR in the phone's browser and python + rerun.io on the laptop.
+    * Repo: [alsuren/sixdofone](https://github.com/alsuren/sixdofone)
+
+
+### [Opvia](https://opvia.io)
+
+#### Senior Software Engineer - 11/2022 - 07/2024
+
+Opvia is a no-code database (like [Notion](https://www.notion.so)) focussed on process data management and training for regulated industries (e.g. food and drink and pharmaceutical manufacturing and research). I joined the company when we were in an 8 person office in a co-working space, and helped it grow to $1M ARR.
+
+* Built the ability to view **any** document/table as it was at **any** point in time, and revert to previous revisions. Massive win when selling into regulated industries.
+* Re-architected tables to make them responsive at 100k rows (previously <5k). Allowed a big pharmaceutical client to use us for their production workflows.
+* Championed [DevOps best practices](https://www.oreilly.com/library/view/accelerate/9781457191435/) (incident response procedure, runtime feature flags, shift left on testing, automatic nightly deploys). Gave us the confidence to ship new features at pace and recover quickly, even with a growing customer base.
+* Introduced pubsub system for running periodic tasks and expensive operations like PDF export, OCR and Search + RAG indexing without impacting user experience.
+* Re-architected our user-facing python automation system to be more beginner-friendly and easier for us to maintain.
+* Stood up the infrastructure for our next generation "Seal" app.
+* Added the ability to print and scan labels from the browser, for real-world asset management.
+* Buzzwords: GxP, PostgreSQL, Full Stack Typescript, React, GraphQL, Python, Pandas, Github Actions, PubSub, DataDog, GCP, Gemini.
+
+
 
 ### Tably
 
@@ -34,11 +56,11 @@ Highlights:
 
 Tably is an early stage startup. The core idea is very similar to Google Sheets, but with key insights that allow it to be taken in a different direction.
 
-* Worked in a Full Stack Rust codebase.
-* Created our long-tail import pipeline, working closely with a junior engineer (based on Airbyte and some JSONSchema magic - read more at https://tably.com/blog/connecting-people-with-their-data).
-* Drove the selection of a frontend web framework (sycamore).
+* Created our data import pipeline for multiple different data sources, working closely with a junior engineer (based on Airbyte - read more at [https://tably.com/blog/connecting-people-with-their-data](https://tably.com/blog/connecting-people-with-their-data)).
+  * Drove the selection of a frontend web framework (sycamore).
 * Worked with CEO on designing direction-setting workshops.
 * Mentored junior engineers on sometimes orthogonal projects, and with senior engineers on mentoring junior engineers.
+* Buzzwords: Mentoring, Full Stack Rust, WebAssembly, Operational Transforms, Extract Transform Load, Airbyte, JSONSchema, AWS, Github Actions.
 
 ### Red Badger
 
@@ -64,6 +86,7 @@ Things I did at Red Badger:
 * Line Managed two other engineers:
   * Facilitated a career change from Test Lead to Software Engineer
   * Managed skills progression and advocated for promotions (using a "ladder" based framework)
+* Buzzwords: Line Management, Full Stack Typescript, Full Stack Rust, Next.js, WebAssembly, PostgreSQL, NATS, GCP, Azure, Github Actions, Pulumi, Terraform, Kubernetes.
 
 ### Conversocial
 
@@ -80,6 +103,7 @@ Things I did at Conversocial
 * Led a team to deal with compliance fallout from the Cambridge Analytica scandal.
 * Rewrote core app frontend from knockout to React + Redux + CSSModules.
 * Migrated our local development environment from Vagrant to Docker For Mac
+* Buzzwords: Python, Django, MongoDB, RabbitMQ, Legacy, GDPR, Webhooks, Twitter, Facebook, Vagrant, Docker.
 
 ### Truphone
 
@@ -90,6 +114,7 @@ Truphone is a "small" mobile network. I worked in their labs team.
 * Deployed and maintained the SIP and XMPP servers that support the Truphone app.
 * Shared knowledge with others on XMPP and git.
 * Applied DevOps reliability/scalability and deployability principles (puppet, monitoring and process supervision).
+* Buzzwords: XMPP, SIP, VoIP, Open Standards, DevOps, Puppet, PubSub.
 
 ### Collabora
 
@@ -100,9 +125,12 @@ Collabora is an Open Source Software Consultancy which maintains many core piece
 * Developed and maintained APIs and protocol implementations for the Telepathy VoIP/IM framework.
 * Developed XMPP<->SIP bridge, and debugged GStreamer<->SIP Phone RTP incompatibilities using WireShark
 * Wrote asynchronous networking/D-Bus code in C, for resource-constrained Linux systems (Nokia N900)
+* Buzzwords: Desktop Linux, Embedded Linux, VoIP, Python, C, GStreamer, GObject.
 
 
 ## Education
+
+### University of Cambridge
 
 #### Master of Engineering, Information Engineering - 2005 - 2009
 
