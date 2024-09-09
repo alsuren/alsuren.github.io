@@ -50,7 +50,7 @@ Opvia is a no-code database (like [Notion](https://www.notion.so)) focussed on p
 
 
 
-### Tably
+### [Tably](https://tably.com)
 
 #### Senior Software Engineer - 10/2021 - 07/2022
 
@@ -62,7 +62,7 @@ Tably is an early stage startup. The core idea is very similar to Google Sheets,
 * Mentored junior engineers on sometimes orthogonal projects, and with senior engineers on mentoring junior engineers.
 * Buzzwords: Mentoring, Full Stack Rust, WebAssembly, Operational Transforms, Extract Transform Load, Airbyte, JSONSchema, AWS, Github Actions.
 
-### Red Badger
+### [Red Badger](https://red-badger.com)
 
 #### Senior Software Engineer - 10/2019 - 10/2021
 
@@ -88,7 +88,7 @@ Things I did at Red Badger:
   * Managed skills progression and advocated for promotions (using a "ladder" based framework)
 * Buzzwords: Line Management, Full Stack Typescript, Full Stack Rust, Next.js, WebAssembly, PostgreSQL, NATS, GCP, Azure, Github Actions, Pulumi, Terraform, Kubernetes.
 
-### Conversocial
+### [Conversocial](https://conversocial.com)
 
 #### Senior Software Engineer - 12/2015 - 07/2019
 
@@ -105,7 +105,7 @@ Things I did at Conversocial
 * Migrated our local development environment from Vagrant to Docker For Mac
 * Buzzwords: Python, Django, MongoDB, RabbitMQ, Legacy, GDPR, Webhooks, Twitter, Facebook, Vagrant, Docker.
 
-### Truphone
+### [Truphone](https://truphone.com)
 
 #### Software Engineer - 09/2012 - 03/2014
 
@@ -116,7 +116,7 @@ Truphone is a "small" mobile network. I worked in their labs team.
 * Applied DevOps reliability/scalability and deployability principles (puppet, monitoring and process supervision).
 * Buzzwords: XMPP, SIP, VoIP, Open Standards, DevOps, Puppet, PubSub.
 
-### Collabora
+### (Collabora)[https://collabora.com]
 
 #### Software Engineer - 09/2009 - 09/2011
 
