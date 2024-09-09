@@ -116,7 +116,7 @@ Truphone is a "small" mobile network. I worked in their labs team.
 * Applied DevOps reliability/scalability and deployability principles (puppet, monitoring and process supervision).
 * Buzzwords: XMPP, SIP, VoIP, Open Standards, DevOps, Puppet, PubSub.
 
-### (Collabora)[https://collabora.com]
+### [Collabora](https://collabora.com)
 
 #### Software Engineer - 09/2009 - 09/2011
 
