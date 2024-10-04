@@ -34,7 +34,7 @@ Opvia is a no-code database (like [Notion](https://www.notion.so)) focussed on p
 
 * Built the ability to instantly view **any** document/table as it was at **any** point in time, and revert to previous revisions. Massive win when selling into regulated industries.
 * Re-architected table queries to make them responsive at 100k rows (fixed multi-minute latency on 5k row tables). Allowed a big pharmaceutical client to use us for their production workflows.
-* Championed [DevOps best practices](https://www.oreilly.com/library/view/accelerate/9781457191435/) (incident response procedure, runtime feature flags, shift left on testing, automatic nightly deploys). Gave us the confidence to ship new features at pace and recover quickly, even with a growing customer base.
+* Championed [DevOps best practices](https://www.oreilly.com/library/view/accelerate/9781457191435/) (incident response procedure, runtime feature flags, shift left on testing, automatic nightly deploys, end-to-end distributed tracing). Gave us the confidence to ship new features at pace and recover quickly, even with a growing customer base.
 * Introduced pubsub system for running periodic tasks and expensive operations like PDF export, OCR and Search + RAG indexing without impacting user experience.
 * Re-architected our user-facing python automation system to be more beginner-friendly and easier for us to maintain.
 * Stood up the infrastructure for our next generation "Seal" app.
