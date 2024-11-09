@@ -14,7 +14,7 @@ I made a thing that people *seem* to be using.
 
 Halp!
 
-## Pre-built binaies of Rust programs
+## Pre-built binaries of Rust programs
 
 Back when I was working at [Red Badger](https://red-badger.com), we had some [GitHub Actions](https://github.com/features/actions) pipelines that [relied on some tools](https://www.reddit.com/r/rust/comments/m2vp2o/comment/gqm2ncg/?utm_source=reddit&utm_medium=web2x&context=3) that were written in [Rust](https://www.rust-lang.org). We had our [GitHub actions cache](https://github.com/actions/cache) set up correctly and everything, but every so often we would blast away the cache, by some innocent-looking operation, like bumping a dependency. This would result in a dog-slow build, as it rebuilt all of the tools that we were using, before even starting to compiling our own project.
 
