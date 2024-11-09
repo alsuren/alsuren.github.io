@@ -26,4 +26,12 @@ node_modules
 *.qcow2
 *.iso
 
-/_site/
+_site/
+
+# My current publishing workflow for DavidLaban.pdf looks like this:
+# osascript -e 'tell application "Visual Studio Code" to activate' -e 'tell application "System Events"' -e 'keystroke "p" using {command down, shift down}' -e 'delay 0.5' -e 'keystroke "Markdown PDF: Export (PDF)"' -e 'delay 0.5' -e 'key code 36' -e 'end tell' && watchexec --watch=cv.pdf -1 --postpone -- cp cv.pdf DavidLaban.pdf
+# I should probaly reach in and strip away a few layers of abstraction, because it is super non-portable and produces a bunch of extra files.
+cv.jpeg
+cv.pdf
+cv.png
+cv.html
