@@ -2,7 +2,7 @@
 title: Monitoring Temperature (with too many Bluetooth thermometers)
 ---
 
-![](/images/presentation/title.jpg)
+![](/images/mijia-homie-presentation/title.jpg)
 
 This is the blog post form of a presentation given at Rust London - 27 April 2021.
 
@@ -31,7 +31,7 @@ The slides are written in markdown using [remark](https://remarkjs.com/), and th
 
 We started with a few ESP32 dev-boards like this:
 
-![](/images/presentation/inception-yun_hat_04.jpg)
+![](/images/mijia-homie-presentation/inception-yun_hat_04.jpg)
 
 These cost around US$16 each, and don't last more than about a day on battery power.
 
@@ -41,7 +41,7 @@ During lockdown, we were setting around the dinner table, and I asked my housema
 
 So we bought 20 of these, at $3 each, and hooked them up to the internet.
 
-![](/images/presentation/inception-order.png)
+![](/images/mijia-homie-presentation/inception-order.png)
 
 <!-- TODO: receipt for the other 80 -->
 
@@ -51,7 +51,7 @@ So we bought 20 of these, at $3 each, and hooked them up to the internet.
 
 This is what we built:
 
-![](/images/presentation/system-overview.embed.svg)
+![](/images/mijia-homie-presentation/system-overview.embed.svg)
 
 Let's take a look at the decisions we made, how they turned out.
 
@@ -108,7 +108,7 @@ The state of Rust Bluetooth in 2020 was a little underwhelming. The options were
 [concurrency]: #Concurrency
 
 - The main problem with `blurz` was that it exposed a single-threaded blocking library interface:
-  ![](/images/presentation/single-threaded-blocking.embed.svg)
+  ![](/images/mijia-homie-presentation/single-threaded-blocking.embed.svg)
 
 We realised that there was a third approach:
 
@@ -118,15 +118,15 @@ We realised that there was a third approach:
 
 After switching to an async library, we got:
 
-![](/images/presentation/single-threaded-async.embed.svg)
+![](/images/mijia-homie-presentation/single-threaded-async.embed.svg)
 
 This almost solves the problem, but not quite. In our case, everything lives in a big `Arc<Mutex<GlobalState>>`.
 
-![](/images/presentation/single-threaded-mutex.embed.svg)
+![](/images/mijia-homie-presentation/single-threaded-mutex.embed.svg)
 
 The solution is to hold the Mutex for as little time as possible.
 
-![](/images/presentation/single-threaded-mutex-final.embed.svg)
+![](/images/mijia-homie-presentation/single-threaded-mutex-final.embed.svg)
 
 This is much better.
 
@@ -173,15 +173,15 @@ Andrew has also been contributing to [`btleplug`](https://crates.io/crates/btlep
 
 We now have graphs like this, with inside and outside readings:
 
-![](/images/presentation/grafana-temperature.png)
+![](/images/mijia-homie-presentation/grafana-temperature.png)
 
 and readings from our fridge:
 
-![](/images/presentation/grafana-fridge.png)
+![](/images/mijia-homie-presentation/grafana-fridge.png)
 
 and we can plot trends using Pandas and Plotly:
 
-![](/images/presentation/average-temperature-by-day.png)
+![](/images/mijia-homie-presentation/average-temperature-by-day.png)
 
 ## Will's setup, with MiFlora sensors
 
@@ -189,15 +189,15 @@ and we can plot trends using Pandas and Plotly:
 
 I gave some to my workmate:
 
-![](/images/presentation/will-system-overview.embed.svg)
+![](/images/mijia-homie-presentation/will-system-overview.embed.svg)
 
 so you can tell when Will waters his plants:
 
-![](/images/presentation/will_moisture.png)
+![](/images/mijia-homie-presentation/will_moisture.png)
 
 and when the dehumidifier kicks in in the cellar:
 
-![](/images/presentation/will_dehumidifier.png)
+![](/images/mijia-homie-presentation/will_dehumidifier.png)
 
 ## CloudBBQ
 
@@ -205,11 +205,11 @@ and when the dehumidifier kicks in in the cellar:
 
 We also got it working with a meat thermometer (backstory: one of the people who sent us patches was using it with a bbq meat thermometer, so I bought one for Andrew as a joke present):
 
-![](/images/presentation/cloudbbq-system-overview.embed.svg)
+![](/images/mijia-homie-presentation/cloudbbq-system-overview.embed.svg)
 
 so now we have a graph of our roast:
 
-![](/images/presentation/cloudbbq-lamb.png)
+![](/images/mijia-homie-presentation/cloudbbq-lamb.png)
 
 ## Closing Remarks
 
