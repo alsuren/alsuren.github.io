@@ -2,7 +2,7 @@
 title: The cargo-quickinstall journey - how I made a thing for installing rust programs quickly
 ---
 
-![Full Architecture diagram for cargo-quickinstall](/images/quickinstall/quickinstall-blog-post.excalidraw.png)
+![Full Architecture diagram for cargo-quickinstall](/images/quickinstall/quickinstall-arch-pretty.exalidraw.png)
 
 I made a thing.
 
