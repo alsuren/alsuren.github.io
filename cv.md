@@ -35,7 +35,7 @@ Opvia is a no-code database (like [Notion](https://www.notion.so)) focussed on p
 * Built the ability to instantly view **any** document/table as it was at **any** point in time, and revert to previous revisions. Massive win when selling into regulated industries.
 * Re-architected table queries to make them responsive at 100k rows (fixed multi-minute latency on 5k row tables). Allowed a big pharmaceutical client to use us for their production workflows.
 * Championed [DevOps best practices](https://www.oreilly.com/library/view/accelerate/9781457191435/) (incident response procedure, runtime feature flags, shift left on testing, automatic nightly deploys, end-to-end distributed tracing). Gave us the confidence to ship new features at pace and recover quickly, even with a growing customer base.
-* Introduced pubsub system for running periodic tasks and expensive operations like PDF export, OCR and Search + RAG indexing without impacting user experience.
+* Introduced pubsub system for running periodic tasks and expensive operations like PDF export, OCR and Search + RAG indexing without impacting user experience. Kept the capability of branch deploys that scale to zero.
 * Re-architected our user-facing python automation system to be more beginner-friendly and easier for us to maintain.
 * Stood up the infrastructure for our next generation "Seal" app.
 * Added the ability to print and scan labels from the browser, for real-world asset management.
@@ -45,9 +45,9 @@ Opvia is a no-code database (like [Notion](https://www.notion.so)) focussed on p
 
 ### [Tably](https://tably.com) - Senior Software Engineer - 10/2021 - 07/2022
 
-Tably is an early stage startup. The core idea is very similar to Google Sheets, but with key insights that allow it to be taken in a different direction.
+Tably is an early stage startup. The core idea is very similar to Google Sheets, but with key insights that allow it to be taken in a different direction. Tech stack is full-stack Rust + WebAssembly.
 
-* Created our data import pipeline for multiple different data sources (based on Airbyte - read more at [https://tably.com/blog/connecting-people-with-their-data](https://tably.com/blog/connecting-people-with-their-data)).
+* Created our data import pipeline for multiple different data sources (based on Airbyte).
   * Drove the selection of an ergonomic frontend web framework (Sycamore) and submitted patches to make it suit our needs.
 * Improved the ergonomics and safety of our [borsh](https://borsh.io/)+[OT](https://en.wikipedia.org/wiki/Operational_transformation)-based data layer.
 * Worked with CEO on designing and running direction-setting workshops.
