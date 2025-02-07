@@ -2,7 +2,9 @@
 title: FOSDEM Highlights
 ---
 
-I was at FOSDEM last weekend, after ~15 years away. I though I should probably write up my highlights while they're fresh in my head. They should be in chronological order.
+I was at FOSDEM last weekend, after ~15 years away. I though I should probably write up my highlights while they're fresh in my head.
+
+They should be in chronological order.
 
 #### [The road to open source General Purpose Humanoids with dora-rs](https://fosdem.sojourner.rocks/2025/event/dff0c251-8b99-5e7b-a1b4-309ac341a92d) by Tao xavier
 
