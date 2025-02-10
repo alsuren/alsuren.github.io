@@ -30,7 +30,7 @@ title: CV - David Laban
 
 ### [Opvia](https://opvia.io) - Senior Software Engineer - 11/2022 - 07/2024
 
-Opvia is a no-code database (like [Notion](https://www.notion.so)) focussed on process data management and training for regulated industries (e.g. food and drink and pharmaceutical manufacturing and research). I joined the company when we were in an 8 person office in a co-working space, and helped it grow to $1M ARR.
+Opvia is a no-code database (like [Notion](https://www.notion.so)) focussed on process data management and training for regulated industries (e.g. pharmaceutical manufacturing and research). I joined the company when we were in an 8 person office in a co-working space, and helped it grow to $1M ARR.
 
 * Built the ability to instantly view **any** document/table as it was at **any** point in time, and revert to previous revisions. Massive win when selling into regulated industries.
 * Re-architected table queries to make them responsive at 100k rows (fixed multi-minute latency on 5k row tables). Allowed a big pharmaceutical client to use us for their production workflows.
