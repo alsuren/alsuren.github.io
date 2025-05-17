@@ -24,7 +24,7 @@ I've been using [remark](https://github.com/gnab/remark) [excalidraw](https://ex
 # Socials
 
 * Mastadon: <a rel="me" href="https://mastodon.me.uk/@alsuren">@alsuren@mastodon.me.uk</a>
-* Twitter: <a rel="me" href="https://twitter.com/alsuren">@alsuren</a>
+* Bsky: <a rel="me" href="https://bsky.app/profile/alsuren.bsky.social">@alsuren.bsky.social</a>
 
 # CV
 
