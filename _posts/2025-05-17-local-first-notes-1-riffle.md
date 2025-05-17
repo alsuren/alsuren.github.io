@@ -3,9 +3,9 @@ title: "Local-First Notes #1: Riffle"
 date: 2025-05-17
 ---
 
-As I'm warming up for [Local First Conference](https://www.localfirstconf.com/) and reading literature, I thought I would write up my notes/thoughts. Here are my thoughts from reading [Riffle's Prelude essay](https://riffle.systems/essays/prelude/)
+I'm starting a series of notes as I prepare for [Local First Conference](https://www.localfirstconf.com/). As I read through related literature, I'll share my thoughts and questions here. This post is inspired by [Riffle's Prelude essay](https://riffle.systems/essays/prelude/).
 
-# Short-circuiting query re-runs on the block level
+### Short-circuiting query re-runs on the block level
 
 For reactive queries, could we:
 
@@ -27,7 +27,7 @@ I have no idea whether this kind of low-level control of SQLite is even possible
 
 I'd be interested in hearing thoughts from others who have experience with SQLite internals or similar reactive query optimizations with sqlite. Reach out on [bluesky](https://bsky.app/profile/alsuren.bsky.social), [mastodon](https://mastodon.me.uk/@alsuren), or discord.
 
-# Nested results
+### Nested results
 
 > Standard SQL doesn’t support nesting, even in the projection step (i.e., what describes the shape of the results). We’re big fans of data normalization, but it’s very convenient to nest data when producing outputs.
 >
