@@ -13,7 +13,7 @@ For reactive queries, could we:
   * merkle tree of index-related pages that have been read to satisfy the query
   * merkle tree of data-related pages that have been read to satisfy the query
 
-When an update comaes in:
+When an update comes in:
 
 * re-run query, passing in merkle trees
 * if none of the pages have changed, return 304 Not Modified
@@ -21,4 +21,4 @@ When an update comaes in:
 
 This means that if you have a massive song list and you're looking at the top page, a change to a song in the bottom page won't cause your UI to re-render.
 
-I have no idea whether this kind of low-level control of sqlite is even possible, or whether it is possible to split its pages into index and data at the VFS layer (or whether it even makes VFS read calls if it's already got the page in its cache).
+I have no idea whether this kind of low-level control of SQLite is even possible, or whether it is possible to split its pages into index and data at the VFS layer (or whether it even makes VFS read calls if it's already got the page in its cache).
