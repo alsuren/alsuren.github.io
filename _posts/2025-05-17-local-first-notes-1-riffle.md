@@ -3,7 +3,9 @@ title: "Local-First Notes #1: Riffle"
 date: 2025-05-17
 ---
 
-As I'm warming up for [https://www.localfirstconf.com/](https://www.localfirstconf.com/) and reading literature, I thought I would write up my notes/thoughts. Here are my thoughts from reading [https://riffle.systems/essays/prelude/](https://riffle.systems/essays/prelude/)
+As I'm warming up for [https://www.localfirstconf.com/](https://www.localfirstconf.com/) and reading literature, I thought I would write up my notes/thoughts. These notes are not going to be high quality, but I thought they would be worth collecting anyway, so I can look back on them as I learn.
+
+Here are my thoughts from reading [https://riffle.systems/essays/prelude/](https://riffle.systems/essays/prelude/)
 
 For reactive queries, could we:
 
