@@ -44,3 +44,7 @@ select
 (example from [pg-sql2](https://github.com/graphile/crystal/tree/main/utils/pg-sql2) but many of the postgraphile queries take a similar form).
 
 I wonder if this approach would be valuable in a reactive sqlite browser datastore.
+
+### Stay Tuned
+
+Stay tuned on RSS or [bluesky](https://bsky.app/profile/alsuren.bsky.social) or [mastodon](https://mastodon.me.uk/@alsuren) for more half-formed thoughts.
