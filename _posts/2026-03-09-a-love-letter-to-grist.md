@@ -1,5 +1,5 @@
 ---
-title: "Grist and Local-First"
+title: "A Love Letter to Grist"
 date: 2026-03-09
 ---
 
