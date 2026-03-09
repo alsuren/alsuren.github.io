@@ -7,5 +7,5 @@ serve:
 		-p 35729:35729 \
 	    -v $(PWD):/site \
 		-v jekylbundle:/usr/local/bundle/ \
-		-w /site ruby:latest \
+		-w /site ruby:3.3 \
 		bash -c 'bundle install && bundle exec jekyll serve --host 0.0.0.0 --livereload'
